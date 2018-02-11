@@ -35,7 +35,7 @@
             android:layout_marginTop="@dimen/free_margin"
             android:text="@string/dummy_info"
             android:textColor="@color/colorSecondaryDark"
-            android:textSize="@dimen/text_size"
+            android:textSize="@dimen/base_text_size"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_item_title" />
@@ -49,7 +49,7 @@
             android:layout_marginTop="@dimen/title_margin"
             android:text="@string/dummy_points"
             android:textColor="@color/colorSecondaryDark"
-            android:textSize="@dimen/text_size"
+            android:textSize="@dimen/base_text_size"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/image_url" />
 
@@ -62,7 +62,7 @@
             android:layout_marginTop="@dimen/free_margin"
             android:text="@string/dummy_comments"
             android:textColor="@color/colorSecondaryDark"
-            android:textSize="@dimen/text_size"
+            android:textSize="@dimen/base_text_size"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_item_points" />
 

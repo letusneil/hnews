@@ -38,6 +38,7 @@ public class CommonUtil {
         public static final int PAGE_SIZE = 8;
         public static final String EMPTY_STRING = "";
         public static final String INTENT_KEY_URL = "my_story_url";
+        public static final String INTENT_KEY_ID = "my_story_id";
         public static final String GOOGLE_PDF_VIEWER_URL = "http://drive.google.com/viewerng/viewer?embedded=true&url=";
         public static final String PDF_FILE = ".pdf";
     }
@@ -59,8 +60,8 @@ public class CommonUtil {
     /**
      * Returns the base url.
      *
-     * @param url   Url
-     * @return      base url
+     * @param url Url
+     * @return base url
      */
     public static String urlToBaseUrl(@Nullable String url) {
         if (TextUtils.isEmpty(url)) {

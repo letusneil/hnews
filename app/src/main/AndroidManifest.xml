@@ -22,7 +22,14 @@
         </activity>
         <activity
             android:name=".webview.WebViewActivity"
-            android:label="@string/web_story" />
+            android:label="@string/label_web_story" />
+        <activity
+            android:name=".comments.CommentsActivity"
+            android:label="@string/label_comments" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

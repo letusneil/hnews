@@ -54,7 +54,7 @@ public class StoriesFragment extends DaggerFragment implements StoriesContract.V
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.frag_stories, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_stories, container, false);
         unbinder = ButterKnife.bind(this, rootView);
         initUi();
         return rootView;

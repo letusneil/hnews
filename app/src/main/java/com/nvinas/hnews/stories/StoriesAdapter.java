@@ -40,8 +40,8 @@ public class StoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return viewType == TYPE_STORY ?
-                new StoryViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_story, parent, false)) :
-                new ProgressIndicatorViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.avi_progress_layout, parent, false));
+                new StoryViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.view_story_item, parent, false)) :
+                new ProgressIndicatorViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.view_avi_progress, parent, false));
     }
 
     @Override

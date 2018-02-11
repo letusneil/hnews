@@ -12,7 +12,7 @@ public class StoriesActivity extends DaggerAppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.act_stories);
+        setContentView(R.layout.activity_base);
 
         StoriesFragment storiesFragment = (StoriesFragment)
                 getSupportFragmentManager().findFragmentById(R.id.container);

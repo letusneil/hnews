@@ -2,9 +2,10 @@
     <string name="app_name">hnews</string>
     <string name="hacker_news">hackernews</string>
 
-    <string name="web_story">web story</string>
+    <string name="label_web_story">web story</string>
+    <string name="label_comments">comments</string>
+    <string name="label_top_stories">top stories</string>
 
-    <string name="top_stories">top stories</string>
     <string name="points">%1$s points</string>
     <string name="story">story</string>
     <string name="comments">%1$s comments</string>
@@ -16,4 +17,8 @@
     <string name="dummy_info">Kendrick Lamar • 2 hours ago • story</string>
     <string name="dummy_points">1155 points</string>
     <string name="dummy_comments">141 comments</string>
+    <string name="dummy_by">by pradipta_ganja_hanz</string>
+    <string name="dummy_time_ago">2 hours ago</string>
+    <string name="dummy_comment">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
+
 </resources>
