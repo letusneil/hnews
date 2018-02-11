@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">hnews</string>
+    <string name="hacker_news">hackernews</string>
+
+    <string name="web_story">web story</string>
+
+    <string name="top_stories">top stories</string>
+    <string name="points">%1$s points</string>
+    <string name="story">story</string>
+    <string name="comments">%1$s comments</string>
+    <string name="info">by %1$s • %2$s • story</string>
+
+    <string name="dummy_title">1. Amazon will launch its own delivery service to compete with Fedex, UPS</string>
+    <string name="dummy_src">twitter</string>
+    <string name="dummy_url">http://www.twitter.com/it/BlackPantherAlbum</string>
+    <string name="dummy_info">Kendrick Lamar • 2 hours ago • story</string>
+    <string name="dummy_points">1155 points</string>
+    <string name="dummy_comments">141 comments</string>
+</resources>
