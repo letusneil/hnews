@@ -28,6 +28,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import dagger.android.support.DaggerFragment;
 import timber.log.Timber;
 
@@ -57,6 +58,7 @@ public class CommentsFragment extends DaggerFragment implements CommentsContract
     RecyclerView rvComments;
 
     private CommentsAdapter commentsAdapter;
+    private Unbinder unbinder;
 
     @Inject
     CommentsContract.Presenter presenter;
@@ -69,7 +71,7 @@ public class CommentsFragment extends DaggerFragment implements CommentsContract
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_comments, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
 
         initUi();
 
@@ -77,13 +79,13 @@ public class CommentsFragment extends DaggerFragment implements CommentsContract
     }
 
     private void initUi() {
-        commentsAdapter = new CommentsAdapter(getContext(), new ArrayList<>());
+        commentsAdapter = new CommentsAdapter(getContext(), new ArrayList<>(0));
         LinearLayoutManager lm = new LinearLayoutManager(getContext());
         rvComments.setLayoutManager(lm);
         rvComments.addOnScrollListener(new RecyclerViewScrollListener(lm) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
-                commentsAdapter.showLoadingIndicator();
+//                commentsAdapter.showLoadingIndicator();
             }
         });
         rvComments.setAdapter(commentsAdapter);
@@ -103,7 +105,7 @@ public class CommentsFragment extends DaggerFragment implements CommentsContract
 
     @Override
     public void showComments(List<Comment> comments) {
-        commentsAdapter.setShowProgressIndicator(false);
+//        commentsAdapter.setShowProgressIndicator(false);
         commentsAdapter.setComments(comments);
     }
 
@@ -148,5 +150,14 @@ public class CommentsFragment extends DaggerFragment implements CommentsContract
     @Override
     public boolean isActive() {
         return isAdded();
+    }
+
+    @Override
+    public void onDestroy() {
+        presenter.dropView();
+        super.onDestroy();
+        if (unbinder != null) {
+            unbinder.unbind();
+        }
     }
 }

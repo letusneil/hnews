@@ -21,14 +21,14 @@ import butterknife.ButterKnife;
  * Created by nvinas on 10/02/2018.
  */
 
-public class CommentsAdapter extends RecyclerView.Adapter {
+public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.CommentViewHolder> {
 
     private Context context;
     private List<Comment> comments;
 
-    private boolean showProgressIndicator = false;
-    private static final int TYPE_PROGRESS = 0;
-    private static final int TYPE_COMMENT = 1;
+//    private boolean showProgressIndicator = false;
+//    private static final int TYPE_PROGRESS = 0;
+//    private static final int TYPE_COMMENT = 1;
 
     CommentsAdapter(Context context, List<Comment> comments) {
         this.context = context;
@@ -36,22 +36,28 @@ public class CommentsAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return viewType == TYPE_COMMENT ?
-                new CommentViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.view_comment_item, parent, false)) :
-                new ProgressIndicatorViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.view_avi_progress, parent, false));
+    public CommentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+//        return viewType == TYPE_COMMENT ?
+//                new CommentViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.view_comment_item, parent, false)) :
+//                new ProgressIndicatorViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.view_avi_progress, parent, false));
+        return new CommentViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.view_comment_item, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof CommentViewHolder) {
-            if (comments != null && comments.size() > 0) {
-                Comment item = comments.get(position);
-                ((CommentViewHolder) holder).bind(item);
-            }
-        } else if (holder instanceof ProgressIndicatorViewHolder) {
-            ((ProgressIndicatorViewHolder) holder).bind();
+    public void onBindViewHolder(CommentViewHolder holder, int position) {
+//        if (holder instanceof CommentViewHolder) {
+//            if (comments != null && comments.size() > 0) {
+//                Comment item = comments.get(position);
+//                ((CommentViewHolder) holder).bind(item);
+//            }
+//        } else if (holder instanceof ProgressIndicatorViewHolder) {
+//            ((ProgressIndicatorViewHolder) holder).bind();
+//        }
+        if (comments != null && comments.size() > 0) {
+            Comment item = comments.get(position);
+            holder.bind(item);
         }
+
     }
 
     void setComments(List<Comment> comments) {
@@ -59,27 +65,28 @@ public class CommentsAdapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
-    void setShowProgressIndicator(boolean showProgressIndicator) {
-        this.showProgressIndicator = showProgressIndicator;
-    }
-
-    void showLoadingIndicator() {
-        setShowProgressIndicator(true);
-        notifyItemInserted(comments.size());
-    }
+//    void setShowProgressIndicator(boolean showProgressIndicator) {
+//        this.showProgressIndicator = showProgressIndicator;
+//    }
+//
+//    void showLoadingIndicator() {
+//        setShowProgressIndicator(true);
+//        notifyItemInserted(comments.size());
+//    }
 
     @Override
     public int getItemCount() {
-        if (comments == null) {
-            return 0;
-        }
-        return showProgressIndicator ? comments.size() + 1 : comments.size();
+//        if (comments == null) {
+//            return 0;
+//        }
+//        return showProgressIndicator ? comments.size() + 1 : comments.size();
+        return comments.size();
     }
-
-    @Override
-    public int getItemViewType(int position) {
-        return showProgressIndicator && position == comments.size() ? TYPE_PROGRESS : TYPE_COMMENT;
-    }
+//
+//    @Override
+//    public int getItemViewType(int position) {
+//        return showProgressIndicator && position == comments.size() ? TYPE_PROGRESS : TYPE_COMMENT;
+//    }
 
     class CommentViewHolder extends RecyclerView.ViewHolder {
 

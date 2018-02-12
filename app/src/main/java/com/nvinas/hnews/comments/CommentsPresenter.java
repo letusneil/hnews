@@ -37,7 +37,7 @@ public class CommentsPresenter implements CommentsContract.Presenter {
         view.setProgressIndicator(true);
         List<Comment> comments = new ArrayList<>();
         subscriptions.add(
-                Observable.just(ids.subList(0, ids.size() - 1))
+                Observable.just(ids.subList(0, ids.size() == 0 ? 0 : ids.size() - 1))
                         .concatMapIterable(list -> list)
                         .concatMap(id -> storyRepository.getComment(id))
                         .subscribe(comments::add, Timber::e, () -> {
