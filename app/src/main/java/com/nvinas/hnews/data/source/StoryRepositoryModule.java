@@ -1,4 +1,4 @@
-package com.nvinas.hnews.common.di.module;
+package com.nvinas.hnews.data.source;
 
 import com.nvinas.hnews.data.source.StoryDataSource;
 import com.nvinas.hnews.data.source.remote.StoryRemoteDataSource;

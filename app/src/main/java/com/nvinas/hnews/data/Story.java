@@ -1,15 +1,19 @@
 package com.nvinas.hnews.data;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by nvinas on 10/02/2018.
  */
 
-public class Story {
+public class Story implements Parcelable {
 
     @SerializedName("by")
     @Expose
@@ -38,6 +42,9 @@ public class Story {
     @SerializedName("url")
     @Expose
     private String url;
+
+    public Story() {
+    }
 
     public String getBy() {
         return by;
@@ -116,4 +123,48 @@ public class Story {
         return "Title: " + title +
                 " Url: " + url;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.by);
+        dest.writeInt(this.descendants);
+        dest.writeInt(this.id);
+        dest.writeList(this.kids);
+        dest.writeInt(this.score);
+        dest.writeInt(this.time);
+        dest.writeString(this.title);
+        dest.writeString(this.type);
+        dest.writeString(this.url);
+    }
+
+    protected Story(Parcel in) {
+        this.by = in.readString();
+        this.descendants = in.readInt();
+        this.id = in.readInt();
+        this.kids = new ArrayList<Integer>();
+        in.readList(this.kids, Integer.class.getClassLoader());
+        this.score = in.readInt();
+        this.time = in.readInt();
+        this.title = in.readString();
+        this.type = in.readString();
+        this.url = in.readString();
+    }
+
+    public static final Parcelable.Creator<Story> CREATOR = new Parcelable.Creator<Story>() {
+        @Override
+        public Story createFromParcel(Parcel source) {
+            return new Story(source);
+        }
+
+        @Override
+        public Story[] newArray(int size) {
+            return new Story[size];
+        }
+    };
 }

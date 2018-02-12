@@ -8,7 +8,7 @@ import com.nvinas.hnews.data.Story;
 
 public interface StoryItemClickListener {
 
-    void onItemClick(int pos, Story object);
+    void onItemClick(int pos, Story story);
 
     void onOpenStoryUrl(String url);
 

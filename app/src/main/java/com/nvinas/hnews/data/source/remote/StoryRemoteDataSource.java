@@ -1,6 +1,7 @@
 package com.nvinas.hnews.data.source.remote;
 
 import com.nvinas.hnews.common.util.CommonUtil;
+import com.nvinas.hnews.data.Comment;
 import com.nvinas.hnews.data.Story;
 import com.nvinas.hnews.data.source.StoryDataSource;
 
@@ -28,8 +29,13 @@ public class StoryRemoteDataSource implements StoryDataSource {
     }
 
     @Override
-    public Observable<Story> getItem(int id) {
+    public Observable<Story> getStory(int id) {
         return api.getItem(id);
+    }
+
+    @Override
+    public Observable<Comment> getComment(int id) {
+        return api.getComment(id);
     }
 
     @Override
@@ -42,8 +48,11 @@ public class StoryRemoteDataSource implements StoryDataSource {
         @GET(CommonUtil.Url.TOP_STORIES)
         Observable<List<Integer>> getTopStories();
 
-        @GET(CommonUtil.Url.ITEM)
+        @GET(CommonUtil.Url.STORY)
         Observable<Story> getItem(@Path("itemid") int id);
+
+        @GET(CommonUtil.Url.COMMENT)
+        Observable<Comment> getComment(@Path("itemid") int id);
     }
 
 }

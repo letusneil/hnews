@@ -18,12 +18,13 @@ public class CommentsActivity extends DaggerAppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_base);
 
         CommentsFragment commentsFragment = (CommentsFragment)
                 getSupportFragmentManager().findFragmentById(R.id.container);
         if (commentsFragment == null) {
             commentsFragment = CommentsFragment.newInstance(
-                    getIntent().getIntExtra(CommonUtil.Constants.INTENT_KEY_ID, 0));
+                    getIntent().getParcelableExtra(CommonUtil.Constants.INTENT_KEY_STORY));
             ActivityUtil.addFragmentToActivity(
                     getSupportFragmentManager(), commentsFragment, R.id.container);
         }

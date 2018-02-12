@@ -5,7 +5,7 @@ import android.app.Application;
 import com.nvinas.hnews.App;
 import com.nvinas.hnews.common.di.module.ActivityBindingModule;
 import com.nvinas.hnews.common.di.module.AppModule;
-import com.nvinas.hnews.common.di.module.StoryRepositoryModule;
+import com.nvinas.hnews.data.source.StoryRepositoryModule;
 import com.nvinas.hnews.common.di.module.NetworkModule;
 
 import javax.inject.Singleton;

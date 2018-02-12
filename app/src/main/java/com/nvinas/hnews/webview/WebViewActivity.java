@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -44,6 +45,12 @@ public class WebViewActivity extends AppCompatActivity {
         if (intent != null) {
             String url = intent.getStringExtra(CommonUtil.Constants.INTENT_KEY_URL);
             Timber.d("Load url: %s", url);
+
+            if (TextUtils.isEmpty(url)) {
+                Timber.d("Empty url");
+                finish();
+                return;
+            }
 
             if (url.endsWith(CommonUtil.Constants.PDF_FILE)) {
                 url = CommonUtil.Constants.GOOGLE_PDF_VIEWER_URL + url;

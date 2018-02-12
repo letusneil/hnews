@@ -1,5 +1,6 @@
 package com.nvinas.hnews.data.source;
 
+import com.nvinas.hnews.data.Comment;
 import com.nvinas.hnews.data.Story;
 
 import java.util.List;
@@ -12,7 +13,9 @@ import io.reactivex.Observable;
 
 public interface StoryDataSource {
 
-    Observable<Story> getItem(int id);
+    Observable<Story> getStory(int id);
 
     Observable<List<Integer>> getTopStories();
+
+    Observable<Comment> getComment(int id);
 }

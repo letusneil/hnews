@@ -21,14 +21,16 @@ public class StoriesPresenter implements StoriesContract.Presenter {
 
     private StoriesContract.View view;
     private StoryRepository storyRepository;
+    private final CompositeDisposable subscriptions;
+
     private boolean initialLoad = true;
     private int currentPage = 1;
     private List<Integer> ids;
-    private CompositeDisposable subscriptions = new CompositeDisposable();
 
     @Inject
     StoriesPresenter(StoryRepository storyRepository) {
         this.storyRepository = storyRepository;
+        this.subscriptions = new CompositeDisposable();
     }
 
     @Override
@@ -71,7 +73,7 @@ public class StoriesPresenter implements StoriesContract.Presenter {
         subscriptions.add(
                 Observable.just(ids.subList(start, end))
                         .concatMapIterable(list -> list)
-                        .concatMap(id -> storyRepository.getItem(id))
+                        .concatMap(id -> storyRepository.getStory(id))
                         .subscribe(stories::add, Timber::e, () -> {
                             if (isAlive()) {
                                 view.setProgressIndicator(false);

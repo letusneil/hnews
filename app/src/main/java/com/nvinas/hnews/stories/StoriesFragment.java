@@ -7,11 +7,13 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.nvinas.hnews.R;
+import com.nvinas.hnews.comments.CommentsActivity;
 import com.nvinas.hnews.common.listener.StoryItemClickListener;
 import com.nvinas.hnews.common.listener.RecyclerViewScrollListener;
 import com.nvinas.hnews.common.util.ActivityUtil;
@@ -28,6 +30,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import dagger.android.support.DaggerFragment;
+import timber.log.Timber;
 
 /**
  * Created by nvinas on 09/02/2018.
@@ -63,6 +66,8 @@ public class StoriesFragment extends DaggerFragment implements StoriesContract.V
     private void initUi() {
         swipeRefresh.setOnRefreshListener(() -> presenter.loadStories());
 
+        storiesAdapter = new StoriesAdapter(getContext(), new ArrayList<>());
+        storiesAdapter.setItemClickListener(this);
         LinearLayoutManager lm = new LinearLayoutManager(getContext());
         rvStories.setLayoutManager(lm);
         rvStories.addOnScrollListener(new RecyclerViewScrollListener(lm) {
@@ -72,8 +77,6 @@ public class StoriesFragment extends DaggerFragment implements StoriesContract.V
                 presenter.loadStoriesInfo();
             }
         });
-        storiesAdapter = new StoriesAdapter(getContext(), new ArrayList<>());
-        storiesAdapter.setItemClickListener(this);
         rvStories.setAdapter(storiesAdapter);
     }
 
@@ -90,17 +93,37 @@ public class StoriesFragment extends DaggerFragment implements StoriesContract.V
     }
 
     @Override
-    public void onItemClick(int pos, Story object) {
+    public void onItemClick(int pos, Story story) {
+        if (story == null) {
+            Timber.d("Empty story");
+            return;
+        }
+        showStory(story);
     }
 
     @Override
     public void onOpenStoryUrl(String url) {
-        ActivityUtil.startActivity(getActivity(), WebViewActivity.class,
-                new Intent().putExtra(CommonUtil.Constants.INTENT_KEY_URL, url));
+        if (TextUtils.isEmpty(url)) {
+            Timber.d("Empty url");
+            return;
+        }
+        showStoryWebview(url);
     }
 
     @Override
     public void onShareStory(Story story) {
+    }
+
+    @Override
+    public void showStory(@NonNull Story story) {
+        ActivityUtil.startActivity(getActivity(), CommentsActivity.class,
+                new Intent().putExtra(CommonUtil.Constants.INTENT_KEY_STORY, story));
+    }
+
+    @Override
+    public void showStoryWebview(@NonNull String url) {
+        ActivityUtil.startActivity(getActivity(), WebViewActivity.class,
+                new Intent().putExtra(CommonUtil.Constants.INTENT_KEY_URL, url));
     }
 
     @Override

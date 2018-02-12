@@ -1,5 +1,9 @@
 package com.nvinas.hnews.stories;
 
+import com.nvinas.hnews.stories.StoriesContract;
+import com.nvinas.hnews.stories.StoriesFragment;
+import com.nvinas.hnews.stories.StoriesPresenter;
+
 import dagger.Binds;
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;

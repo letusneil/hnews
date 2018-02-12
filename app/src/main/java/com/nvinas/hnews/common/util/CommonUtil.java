@@ -27,7 +27,8 @@ public class CommonUtil {
 
         public static final String BASE_URL = "https://hacker-news.firebaseio.com";
         public static final String TOP_STORIES = "/v0/topstories.json";
-        public static final String ITEM = "/v0/item/{itemid}.json";
+        public static final String STORY = "/v0/item/{itemid}.json";
+        public static final String COMMENT = "/v0/item/{itemid}.json";
     }
 
     public static class Constants {
@@ -36,9 +37,10 @@ public class CommonUtil {
         }
 
         public static final int PAGE_SIZE = 8;
+        public static final int PAGE_COMMENT_SIZE = 24;
         public static final String EMPTY_STRING = "";
-        public static final String INTENT_KEY_URL = "my_story_url";
-        public static final String INTENT_KEY_ID = "my_story_id";
+        public static final String INTENT_KEY_URL = "key_story_url";
+        public static final String INTENT_KEY_STORY = "key_story";
         public static final String GOOGLE_PDF_VIEWER_URL = "http://drive.google.com/viewerng/viewer?embedded=true&url=";
         public static final String PDF_FILE = ".pdf";
     }

@@ -4,12 +4,15 @@
 
     <string name="label_web_story">web story</string>
     <string name="label_comments">comments</string>
-    <string name="label_top_stories">top stories</string>
+    <string name="label_top_stories">top comments</string>
 
     <string name="points">%1$s points</string>
     <string name="story">story</string>
     <string name="comments">%1$s comments</string>
     <string name="info">by %1$s • %2$s • story</string>
+
+    <string name="comment_by">by %1$s</string>
+    <string name="comment_time">%1$s</string>
 
     <string name="dummy_title">1. Amazon will launch its own delivery service to compete with Fedex, UPS</string>
     <string name="dummy_src">twitter</string>

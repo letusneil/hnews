@@ -1,6 +1,7 @@
 package com.nvinas.hnews.stories;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by nvinas on 10/02/2018.
@@ -49,7 +51,7 @@ public class StoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (holder instanceof StoryViewHolder) {
             if (stories != null && stories.size() > 0) {
                 Story item = stories.get(position);
-                ((StoryViewHolder) holder).bind(item);
+                ((StoryViewHolder) holder).bind(position, item);
             }
         } else if (holder instanceof ProgressIndicatorViewHolder) {
             ((ProgressIndicatorViewHolder) holder).bind();
@@ -103,14 +105,22 @@ public class StoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         TextView urlHost;
         @BindView(R.id.ll_url)
         LinearLayout urlView;
+        @BindView(R.id.cv_item)
+        CardView itemViewBase;
 
         StoryViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
 
-        void bind(Story story) {
+        void bind(int pos, Story story) {
             if (story != null) {
+                itemViewBase.setOnClickListener(view -> {
+                    if (listener != null) {
+                        listener.onItemClick(pos, story);
+                    }
+                });
+
                 title.setText(CommonUtil.nullToEmptySting(story.getTitle()));
                 comments.setText(context.getString(R.string.comments,
                         String.valueOf(story.getDescendants())));
@@ -118,6 +128,7 @@ public class StoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         R.string.points, String.valueOf(story.getScore())));
                 info.setText(context.getString(
                         R.string.info, story.getBy(), CommonUtil.toTimeSpan(story.getTime())));
+
                 urlHost.setText(CommonUtil.urlToBaseUrl(story.getUrl()));
                 url.setText(CommonUtil.nullToEmptySting(story.getUrl()));
                 urlView.setOnClickListener(view -> {

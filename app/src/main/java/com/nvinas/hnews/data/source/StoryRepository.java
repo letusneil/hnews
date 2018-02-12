@@ -1,6 +1,7 @@
 package com.nvinas.hnews.data.source;
 
 import com.nvinas.hnews.common.util.RxUtil;
+import com.nvinas.hnews.data.Comment;
 import com.nvinas.hnews.data.Story;
 
 import java.util.List;
@@ -30,8 +31,14 @@ public class StoryRepository implements StoryDataSource {
     }
 
     @Override
-    public Observable<Story> getItem(int id) {
-        return dataSource.getItem(id)
+    public Observable<Story> getStory(int id) {
+        return dataSource.getStory(id)
+                .compose(RxUtil.applySchedulers());
+    }
+
+    @Override
+    public Observable<Comment> getComment(int id) {
+        return dataSource.getComment(id)
                 .compose(RxUtil.applySchedulers());
     }
 }
