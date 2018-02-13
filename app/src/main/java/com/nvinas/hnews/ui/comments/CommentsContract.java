@@ -1,4 +1,4 @@
-package com.nvinas.hnews.comments;
+package com.nvinas.hnews.ui.comments;
 
 import android.support.annotation.NonNull;
 

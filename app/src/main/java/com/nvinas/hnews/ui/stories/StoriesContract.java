@@ -1,4 +1,4 @@
-package com.nvinas.hnews.stories;
+package com.nvinas.hnews.ui.stories;
 
 import android.support.annotation.NonNull;
 

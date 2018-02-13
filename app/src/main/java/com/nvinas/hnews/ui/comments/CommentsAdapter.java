@@ -1,4 +1,4 @@
-package com.nvinas.hnews.comments;
+package com.nvinas.hnews.ui.comments;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

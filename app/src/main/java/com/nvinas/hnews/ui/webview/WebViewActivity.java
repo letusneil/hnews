@@ -1,4 +1,4 @@
-package com.nvinas.hnews.webview;
+package com.nvinas.hnews.ui.webview;
 
 import android.content.Intent;
 import android.graphics.Bitmap;

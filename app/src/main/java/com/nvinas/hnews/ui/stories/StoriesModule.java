@@ -1,8 +1,4 @@
-package com.nvinas.hnews.stories;
-
-import com.nvinas.hnews.stories.StoriesContract;
-import com.nvinas.hnews.stories.StoriesFragment;
-import com.nvinas.hnews.stories.StoriesPresenter;
+package com.nvinas.hnews.ui.stories;
 
 import dagger.Binds;
 import dagger.Module;

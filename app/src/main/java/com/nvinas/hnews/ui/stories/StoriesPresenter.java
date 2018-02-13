@@ -1,4 +1,4 @@
-package com.nvinas.hnews.stories;
+package com.nvinas.hnews.ui.stories;
 
 import com.nvinas.hnews.common.util.CommonUtil;
 import com.nvinas.hnews.common.util.RxUtil;

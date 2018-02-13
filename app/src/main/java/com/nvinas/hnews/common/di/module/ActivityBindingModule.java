@@ -1,9 +1,9 @@
 package com.nvinas.hnews.common.di.module;
 
-import com.nvinas.hnews.comments.CommentsActivity;
-import com.nvinas.hnews.comments.CommentsModule;
-import com.nvinas.hnews.stories.StoriesActivity;
-import com.nvinas.hnews.stories.StoriesModule;
+import com.nvinas.hnews.ui.comments.CommentsActivity;
+import com.nvinas.hnews.ui.comments.CommentsModule;
+import com.nvinas.hnews.ui.stories.StoriesActivity;
+import com.nvinas.hnews.ui.stories.StoriesModule;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;

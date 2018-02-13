@@ -1,8 +1,4 @@
-package com.nvinas.hnews.comments;
-
-import com.nvinas.hnews.comments.CommentsContract;
-import com.nvinas.hnews.comments.CommentsFragment;
-import com.nvinas.hnews.comments.CommentsPresenter;
+package com.nvinas.hnews.ui.comments;
 
 import dagger.Binds;
 import dagger.Module;

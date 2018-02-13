@@ -1,10 +1,14 @@
-package com.nvinas.hnews.stories;
+package com.nvinas.hnews.ui.stories;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -13,13 +17,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.nvinas.hnews.R;
-import com.nvinas.hnews.comments.CommentsActivity;
+import com.nvinas.hnews.ui.comments.CommentsActivity;
 import com.nvinas.hnews.common.listener.StoryItemClickListener;
 import com.nvinas.hnews.common.listener.RecyclerViewScrollListener;
 import com.nvinas.hnews.common.util.ActivityUtil;
 import com.nvinas.hnews.common.util.CommonUtil;
 import com.nvinas.hnews.data.Story;
-import com.nvinas.hnews.webview.WebViewActivity;
+import com.nvinas.hnews.ui.webview.WebViewActivity;
 
 import java.util.ArrayList;
 import java.util.List;

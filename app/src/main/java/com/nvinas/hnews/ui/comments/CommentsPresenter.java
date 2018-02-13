@@ -1,9 +1,7 @@
-package com.nvinas.hnews.comments;
+package com.nvinas.hnews.ui.comments;
 
-import com.nvinas.hnews.common.util.CommonUtil;
 import com.nvinas.hnews.common.util.RxUtil;
 import com.nvinas.hnews.data.Comment;
-import com.nvinas.hnews.data.Story;
 import com.nvinas.hnews.data.source.StoryRepository;
 
 import java.util.ArrayList;

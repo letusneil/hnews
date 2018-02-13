@@ -1,4 +1,4 @@
-package com.nvinas.hnews.stories;
+package com.nvinas.hnews.ui.stories;
 
 import android.content.Context;
 import android.support.v7.widget.CardView;

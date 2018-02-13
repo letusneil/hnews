@@ -13,7 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".stories.StoriesActivity">
+        <activity android:name=".ui.stories.StoriesActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,10 +21,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".webview.WebViewActivity"
+            android:name=".ui.webview.WebViewActivity"
             android:label="@string/label_web_story" />
         <activity
-            android:name=".comments.CommentsActivity"
+            android:name=".ui.comments.CommentsActivity"
             android:label="@string/label_comments" />
 
         <meta-data

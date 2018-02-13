@@ -3,135 +3,142 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/swipe_refresh"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorSecondaryDark">
 
-    <LinearLayout
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/grey_900"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <android.support.constraint.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/grey_800">
+            android:background="@color/colorSecondaryDark"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_item_title"
-                android:layout_width="@dimen/free_margin"
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/base_margin"
-                android:layout_marginStart="@dimen/base_margin"
-                android:layout_marginTop="@dimen/base_margin"
-                android:text="@string/dummy_title"
-                android:textColor="@color/colorSecondary"
-                android:textSize="@dimen/title_text_size"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_item_info"
-                android:layout_width="@dimen/free_margin"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/base_margin"
-                android:layout_marginStart="@dimen/base_margin"
-                android:layout_marginTop="@dimen/free_margin"
-                android:text="@string/dummy_info"
-                android:textColor="@color/colorSecondaryDark"
-                android:textSize="@dimen/base_text_size"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_item_title" />
-
-            <TextView
-                android:id="@+id/tv_item_points"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/base_margin"
-                android:layout_marginStart="@dimen/base_margin"
-                android:layout_marginTop="@dimen/title_margin"
-                android:text="@string/dummy_points"
-                android:textColor="@color/colorSecondaryDark"
-                android:textSize="@dimen/base_text_size"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/image_url" />
-
-            <TextView
-                android:id="@+id/tv_item_comments"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/base_margin"
-                android:layout_marginStart="@dimen/base_margin"
-                android:layout_marginTop="@dimen/free_margin"
-                android:text="@string/dummy_comments"
-                android:textColor="@color/colorSecondaryDark"
-                android:textSize="@dimen/base_text_size"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_item_points" />
-
-            <ImageView
-                android:id="@+id/image_url"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/base_margin"
-                android:layout_marginStart="@dimen/base_margin"
-                android:layout_marginTop="16dp"
-                android:src="@drawable/ic_insert_link"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_item_info" />
-
-            <LinearLayout
-                android:id="@+id/ll_url"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/base_margin"
-                android:layout_marginStart="@dimen/base_margin"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="@+id/image_url"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/image_url"
-                app:layout_constraintTop_toTopOf="@+id/image_url">
+                android:background="@color/colorSecondary"
+                android:elevation="2dp">
 
                 <TextView
-                    android:id="@+id/tv_url_src"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tv_item_title"
+                    android:layout_width="@dimen/free_margin"
                     android:layout_height="wrap_content"
-                    android:text="@string/dummy_src"
-                    android:textColor="@color/colorSecondaryDark"
-                    android:textSize="@dimen/min_text_size"
-                    android:textStyle="bold|italic" />
+                    android:layout_marginEnd="@dimen/base_margin"
+                    android:layout_marginStart="@dimen/base_margin"
+                    android:layout_marginTop="@dimen/base_margin"
+                    android:text="@string/dummy_title"
+                    android:textColor="@color/grey_900"
+                    android:textSize="@dimen/title_text_size"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/tv_url"
+                    android:id="@+id/tv_item_info"
+                    android:layout_width="@dimen/free_margin"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/base_margin"
+                    android:layout_marginStart="@dimen/base_margin"
+                    android:layout_marginTop="@dimen/free_margin"
+                    android:text="@string/dummy_info"
+                    android:textColor="@color/grey_900"
+                    android:textSize="@dimen/base_text_size"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_item_title" />
+
+                <TextView
+                    android:id="@+id/tv_item_points"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:ellipsize="marquee"
-                    android:maxLines="2"
-                    android:text="@string/dummy_url"
-                    android:textAllCaps="false"
-                    android:textColor="@color/colorSecondaryDark"
-                    android:textSize="@dimen/min_text_size" />
-            </LinearLayout>
+                    android:layout_marginLeft="@dimen/base_margin"
+                    android:layout_marginStart="@dimen/base_margin"
+                    android:layout_marginTop="@dimen/title_margin"
+                    android:text="@string/dummy_points"
+                    android:textColor="@color/grey_900"
+                    android:textSize="@dimen/base_text_size"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/image_url" />
 
-            <ImageView
-                android:id="@+id/ic_more"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/tv_item_comments"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/base_margin"
+                    android:layout_marginStart="@dimen/base_margin"
+                    android:layout_marginTop="@dimen/free_margin"
+                    android:text="@string/dummy_comments"
+                    android:textColor="@color/grey_900"
+                    android:textSize="@dimen/base_text_size"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_item_points" />
+
+                <ImageView
+                    android:id="@+id/image_url"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/base_margin"
+                    android:layout_marginStart="@dimen/base_margin"
+                    android:layout_marginTop="16dp"
+                    android:src="@drawable/ic_insert_link"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_item_info" />
+
+                <LinearLayout
+                    android:id="@+id/ll_url"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/base_margin"
+                    android:layout_marginStart="@dimen/base_margin"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="@+id/image_url"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/image_url"
+                    app:layout_constraintTop_toTopOf="@+id/image_url">
+
+                    <TextView
+                        android:id="@+id/tv_url_src"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/dummy_src"
+                        android:textColor="@color/grey_900"
+                        android:textSize="@dimen/min_text_size"
+                        android:textStyle="bold|italic" />
+
+                    <TextView
+                        android:id="@+id/tv_url"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="marquee"
+                        android:maxLines="2"
+                        android:text="@string/dummy_url"
+                        android:textAllCaps="false"
+                        android:textColor="@color/grey_900"
+                        android:textSize="@dimen/min_text_size" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/ic_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/base_margin"
+                    android:layout_marginEnd="@dimen/free_margin"
+                    android:layout_marginRight="@dimen/free_margin"
+                    android:layout_marginTop="@dimen/base_margin"
+                    android:src="@drawable/ic_more_vert"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tv_item_points" />
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_comments"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/base_margin"
-                android:layout_marginEnd="@dimen/free_margin"
-                android:layout_marginRight="@dimen/free_margin"
-                android:layout_marginTop="@dimen/base_margin"
-                android:src="@drawable/ic_more_vert"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tv_item_points" />
-        </android.support.constraint.ConstraintLayout>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_comments"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/rv_comment_top_margin" />
-    </LinearLayout>
+                android:layout_marginTop="@dimen/rv_comment_top_margin" />
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 </android.support.v4.widget.SwipeRefreshLayout>

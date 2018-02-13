@@ -1,10 +1,16 @@
-package com.nvinas.hnews.comments;
+package com.nvinas.hnews.ui.comments;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,7 +25,7 @@ import com.nvinas.hnews.common.util.ActivityUtil;
 import com.nvinas.hnews.common.util.CommonUtil;
 import com.nvinas.hnews.data.Comment;
 import com.nvinas.hnews.data.Story;
-import com.nvinas.hnews.webview.WebViewActivity;
+import com.nvinas.hnews.ui.webview.WebViewActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,6 +94,26 @@ public class CommentsFragment extends DaggerFragment implements CommentsContract
 //                commentsAdapter.showLoadingIndicator();
             }
         });
+
+        Context context = getContext();
+        if (context != null) {
+            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(context, lm.getOrientation()) {
+                @Override
+                public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                    int position = parent.getChildAdapterPosition(view);
+                    if (position == parent.getAdapter().getItemCount() - 1) {
+                        outRect.setEmpty();
+                    } else {
+                        super.getItemOffsets(outRect, view, parent, state);
+                    }
+                }
+            };
+            Drawable dividerDrawable = ContextCompat.getDrawable(context, R.drawable.divider);
+            if (dividerDrawable != null) {
+                dividerItemDecoration.setDrawable(dividerDrawable);
+            }
+            rvComments.addItemDecoration(dividerItemDecoration);
+        }
         rvComments.setAdapter(commentsAdapter);
 
         Bundle bundle = getArguments();
