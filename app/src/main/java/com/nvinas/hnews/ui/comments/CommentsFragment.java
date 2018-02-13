@@ -88,13 +88,6 @@ public class CommentsFragment extends DaggerFragment implements CommentsContract
         commentsAdapter = new CommentsAdapter(getContext(), new ArrayList<>(0));
         LinearLayoutManager lm = new LinearLayoutManager(getContext());
         rvComments.setLayoutManager(lm);
-        rvComments.addOnScrollListener(new RecyclerViewScrollListener(lm) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount) {
-//                commentsAdapter.showLoadingIndicator();
-            }
-        });
-
         Context context = getContext();
         if (context != null) {
             DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(context, lm.getOrientation()) {
@@ -125,13 +118,18 @@ public class CommentsFragment extends DaggerFragment implements CommentsContract
             }
             showStoryInfo(story);
             presenter.takeView(this);
+
+            List<Integer> kids = story.getKids();
+            if (kids == null || kids.size() <= 0) {
+                Timber.d("No comments available");
+                return;
+            }
             presenter.loadComments(story.getKids());
         }
     }
 
     @Override
     public void showComments(List<Comment> comments) {
-//        commentsAdapter.setShowProgressIndicator(false);
         commentsAdapter.setComments(comments);
     }
 

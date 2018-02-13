@@ -22,7 +22,6 @@ public class CommentsPresenter implements CommentsContract.Presenter {
     private CommentsContract.View view;
     private StoryRepository storyRepository;
     private final CompositeDisposable subscriptions;
-    private int currentPage = 1;
 
     @Inject
     CommentsPresenter(StoryRepository storyRepository) {
@@ -35,14 +34,13 @@ public class CommentsPresenter implements CommentsContract.Presenter {
         view.setProgressIndicator(true);
         List<Comment> comments = new ArrayList<>();
         subscriptions.add(
-                Observable.just(ids.subList(0, ids.size() == 0 ? 0 : ids.size() - 1))
+                Observable.just(ids.subList(0, ids.size() == 1 ? 1 : ids.size() - 1))
                         .concatMapIterable(list -> list)
                         .concatMap(id -> storyRepository.getComment(id))
                         .subscribe(comments::add, Timber::e, () -> {
                             if (isAlive()) {
                                 view.setProgressIndicator(false);
                                 view.showComments(comments);
-                                currentPage++;
                             }
                         }));
     }
