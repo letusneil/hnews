@@ -14,11 +14,18 @@ public abstract class RecyclerViewScrollListener extends RecyclerView.OnScrollLi
     private int previousTotalItemCount = 0;
     // True if we are still waiting for the last set of data to load.
     private boolean loading = true;
+    // The minimum amount of items to have below your current scroll position
+    // before loading more.
+    private int visibleThreshold = 5;
 
     private LinearLayoutManager mLayoutManager;
 
     protected RecyclerViewScrollListener(LinearLayoutManager layoutManager) {
         this.mLayoutManager = layoutManager;
+    }
+
+    public void setVisibleThreshold(int visibleThreshold) {
+        this.visibleThreshold = visibleThreshold;
     }
 
     public int getLastVisibleItem(int[] lastVisibleItemPositions) {
@@ -38,9 +45,6 @@ public abstract class RecyclerViewScrollListener extends RecyclerView.OnScrollLi
     // but first we check if we are waiting for the previous load to finish.
     @Override
     public void onScrolled(RecyclerView view, int dx, int dy) {
-        // The minimum amount of items to have below your current scroll position
-        // before loading more.
-        int visibleThreshold = 4;
         // Sets the starting page index
         int startingPageIndex = 0;
 

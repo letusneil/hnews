@@ -1,20 +1,19 @@
 package com.nvinas.hnews.ui.stories;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nvinas.hnews.R;
 import com.nvinas.hnews.ui.comments.CommentsActivity;
@@ -48,6 +47,9 @@ public class StoriesFragment extends DaggerFragment implements StoriesContract.V
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout swipeRefresh;
 
+    @BindView(R.id.text_stories_unavailable)
+    TextView textStoriesUnavailable;
+
     @Inject
     StoriesContract.Presenter presenter;
 
@@ -68,20 +70,23 @@ public class StoriesFragment extends DaggerFragment implements StoriesContract.V
     }
 
     private void initUi() {
-        swipeRefresh.setOnRefreshListener(() -> presenter.loadStories());
+        Context context = getContext();
+        if (context != null) {
+            storiesAdapter = new StoriesAdapter(context, new ArrayList<>());
+            storiesAdapter.setItemClickListener(this);
+            LinearLayoutManager lm = new LinearLayoutManager(getContext());
+            rvStories.setLayoutManager(lm);
+            rvStories.addOnScrollListener(new RecyclerViewScrollListener(lm) {
+                @Override
+                public void onLoadMore(int page, int totalItemsCount) {
+                    storiesAdapter.showLoadingIndicator();
+                    presenter.loadStoriesInfo();
+                }
+            });
+            rvStories.setAdapter(storiesAdapter);
 
-        storiesAdapter = new StoriesAdapter(getContext(), new ArrayList<>());
-        storiesAdapter.setItemClickListener(this);
-        LinearLayoutManager lm = new LinearLayoutManager(getContext());
-        rvStories.setLayoutManager(lm);
-        rvStories.addOnScrollListener(new RecyclerViewScrollListener(lm) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount) {
-                storiesAdapter.showLoadingIndicator();
-                presenter.loadStoriesInfo();
-            }
-        });
-        rvStories.setAdapter(storiesAdapter);
+            swipeRefresh.setOnRefreshListener(() -> presenter.loadStories());
+        }
     }
 
     @Override
@@ -91,8 +96,12 @@ public class StoriesFragment extends DaggerFragment implements StoriesContract.V
     }
 
     @Override
-    public void showStories(List<Story> stories) {
+    public void showStories(@Nullable List<Story> stories) {
         storiesAdapter.setShowProgressIndicator(false);
+        if (stories == null) {
+            showStoriesUnavailableError();
+            return;
+        }
         storiesAdapter.setStories(stories);
     }
 
@@ -111,7 +120,7 @@ public class StoriesFragment extends DaggerFragment implements StoriesContract.V
             Timber.d("Empty url");
             return;
         }
-        showStoryWebview(url);
+        showStoryWebView(url);
     }
 
     @Override
@@ -125,14 +134,19 @@ public class StoriesFragment extends DaggerFragment implements StoriesContract.V
     }
 
     @Override
-    public void showStoryWebview(@NonNull String url) {
+    public void showStoryWebView(@NonNull String url) {
         ActivityUtil.startActivity(getActivity(), WebViewActivity.class,
                 new Intent().putExtra(CommonUtil.Constants.INTENT_KEY_URL, url));
     }
 
     @Override
     public void showErrorMessage(String errorMessage) {
+        Toast.makeText(getContext(), errorMessage, Toast.LENGTH_LONG).show();
+    }
 
+    @Override
+    public void showStoriesUnavailableError() {
+        textStoriesUnavailable.setVisibility(View.VISIBLE);
     }
 
     @Override

@@ -2,12 +2,23 @@ package com.nvinas.hnews.common.util;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.view.View;
+
+import com.nvinas.hnews.R;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Collection;
 
 import timber.log.Timber;
 
@@ -36,7 +47,7 @@ public class CommonUtil {
         private Constants() {
         }
 
-        public static final int PAGE_SIZE = 8;
+        public static final int PAGE_STORY_SIZE = 8;
         public static final int PAGE_COMMENT_SIZE = 24;
         public static final String EMPTY_STRING = "";
         public static final String INTENT_KEY_URL = "key_story_url";
@@ -95,4 +106,25 @@ public class CommonUtil {
             context.startActivity(intent);
         }
     }
+
+    public static DividerItemDecoration getDividerItemDecoration(
+            @NonNull Context context, @DrawableRes int drawable, @RecyclerView.Orientation int orientation) {
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(context, orientation) {
+            @Override
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                int position = parent.getChildAdapterPosition(view);
+                if (position == parent.getAdapter().getItemCount() - 1) {
+                    outRect.setEmpty();
+                } else {
+                    super.getItemOffsets(outRect, view, parent, state);
+                }
+            }
+        };
+        Drawable dividerDrawable = ContextCompat.getDrawable(context, drawable);
+        if (dividerDrawable != null) {
+            dividerItemDecoration.setDrawable(dividerDrawable);
+        }
+        return dividerItemDecoration;
+    }
+
 }

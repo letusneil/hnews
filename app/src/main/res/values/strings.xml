@@ -10,6 +10,7 @@
     <string name="story">story</string>
     <string name="comments">%1$s comments</string>
     <string name="info">by %1$s • %2$s • story</string>
+    <string name="stories_unavailable">Stories are unavailable right now</string>
 
     <string name="comments_title">comments</string>
 

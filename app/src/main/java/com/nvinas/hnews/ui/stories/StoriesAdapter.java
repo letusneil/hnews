@@ -1,6 +1,8 @@
 package com.nvinas.hnews.ui.stories;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -34,7 +36,7 @@ public class StoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private static final int TYPE_STORY = 1;
     private StoryItemClickListener listener;
 
-    StoriesAdapter(Context context, List<Story> stories) {
+    StoriesAdapter(@NonNull Context context, @Nullable List<Story> stories) {
         this.context = context;
         this.stories = stories;
     }
@@ -62,7 +64,7 @@ public class StoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.listener = listener;
     }
 
-    void setStories(List<Story> stories) {
+    void setStories(@NonNull List<Story> stories) {
         this.stories.addAll(stories);
         notifyDataSetChanged();
     }
@@ -78,9 +80,6 @@ public class StoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemCount() {
-        if (stories == null) {
-            return 0;
-        }
         return showProgressIndicator ? stories.size() + 1 : stories.size();
     }
 

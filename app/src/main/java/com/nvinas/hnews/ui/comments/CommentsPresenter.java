@@ -1,5 +1,6 @@
 package com.nvinas.hnews.ui.comments;
 
+import com.nvinas.hnews.common.util.CommonUtil;
 import com.nvinas.hnews.common.util.RxUtil;
 import com.nvinas.hnews.data.Comment;
 import com.nvinas.hnews.data.source.StoryRepository;
@@ -22,6 +23,8 @@ public class CommentsPresenter implements CommentsContract.Presenter {
     private CommentsContract.View view;
     private StoryRepository storyRepository;
     private final CompositeDisposable subscriptions;
+    private List<Integer> ids;
+    private int currentPage = 1;
 
     @Inject
     CommentsPresenter(StoryRepository storyRepository) {
@@ -31,7 +34,9 @@ public class CommentsPresenter implements CommentsContract.Presenter {
 
     @Override
     public void loadComments(List<Integer> ids) {
+        this.ids = ids;
         view.setProgressIndicator(true);
+
         List<Comment> comments = new ArrayList<>();
         subscriptions.add(
                 Observable.just(ids.subList(0, ids.size() == 1 ? 1 : ids.size() - 1))
@@ -41,13 +46,16 @@ public class CommentsPresenter implements CommentsContract.Presenter {
                             if (isAlive()) {
                                 view.setProgressIndicator(false);
                                 view.showComments(comments);
+                                currentPage++;
                             }
                         }));
     }
 
     @Override
-    public void loadCommentChild(int id) {
-
+    public void refreshComments() {
+        if (ids != null) {
+            loadComments(ids);
+        }
     }
 
     @Override
@@ -57,8 +65,8 @@ public class CommentsPresenter implements CommentsContract.Presenter {
 
     @Override
     public void dropView() {
-        view = null;
         RxUtil.unsubscribe(subscriptions);
+        view = null;
     }
 
     private boolean isAlive() {

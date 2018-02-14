@@ -1,6 +1,7 @@
 package com.nvinas.hnews.ui.comments;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.nvinas.hnews.common.base.BasePresenter;
 import com.nvinas.hnews.common.base.BaseView;
@@ -18,14 +19,18 @@ public interface CommentsContract {
     interface View extends BaseView {
 
         void showStoryInfo(Story story);
+
         void showStoryWebview(@NonNull String url);
-        void showComments(List<Comment> comments);
+
+        void showComments(@NonNull List<Comment> comments);
+
         boolean isActive();
     }
 
     interface Presenter extends BasePresenter<View> {
 
+        void refreshComments();
+
         void loadComments(List<Integer> ids);
-        void loadCommentChild(int id);
     }
 }

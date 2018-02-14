@@ -59,6 +59,7 @@ public class StoriesPresenter implements StoriesContract.Presenter {
                         throwable -> {
                             if (isAlive()) {
                                 view.setProgressIndicator(false);
+                                view.showStoriesUnavailableError();
                                 view.showErrorMessage(throwable.getMessage());
                             }
                         }));
@@ -66,12 +67,12 @@ public class StoriesPresenter implements StoriesContract.Presenter {
 
     @Override
     public void loadStoriesInfo() {
-        int end = currentPage * CommonUtil.Constants.PAGE_SIZE;
-        int start = end - CommonUtil.Constants.PAGE_SIZE;
+        int lastItem = currentPage * CommonUtil.Constants.PAGE_STORY_SIZE;
+        int firstItem = lastItem - CommonUtil.Constants.PAGE_STORY_SIZE;
         List<Story> stories = new ArrayList<>();
 
         subscriptions.add(
-                Observable.just(ids.subList(start, end))
+                Observable.just(ids.subList(firstItem, lastItem))
                         .concatMapIterable(list -> list)
                         .concatMap(id -> storyRepository.getStory(id))
                         .subscribe(stories::add, Timber::e, () -> {
