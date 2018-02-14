@@ -22,7 +22,7 @@ public interface CommentsContract {
 
         void showStoryWebview(@NonNull String url);
 
-        void showComments(@NonNull List<Comment> comments);
+        void showComment(@NonNull Comment comment, int pos);
 
         boolean isActive();
     }

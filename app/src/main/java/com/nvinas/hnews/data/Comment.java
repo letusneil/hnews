@@ -32,6 +32,7 @@ public class Comment {
     @SerializedName("type")
     @Expose
     private String type;
+    private int level = 0;
 
     public String getBy() {
         return by;
@@ -59,5 +60,13 @@ public class Comment {
 
     public String getType() {
         return type;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
     }
 }

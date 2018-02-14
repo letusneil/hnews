@@ -6,6 +6,7 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.nvinas.hnews.R;
@@ -41,9 +42,19 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     public void onBindViewHolder(CommentViewHolder holder, int position) {
         if (comments != null && comments.size() > 0) {
             Comment item = comments.get(position);
-            holder.bind(item);
+            holder.bind(item, position);
         }
 
+    }
+
+    void addComment(Comment comment, int pos) {
+        comments.add(comment);
+        notifyItemInserted(pos);
+    }
+
+    void removeAll() {
+        comments.clear();
+        notifyDataSetChanged();
     }
 
     void setComments(List<Comment> comments) {
@@ -67,38 +78,32 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         @BindView(R.id.text_comment)
         TextView textComment;
 
-        @BindView(R.id.text_show_more)
-        TextView showMore;
+        @BindView(R.id.indentation)
+        LinearLayout indentation;
 
         CommentViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
 
-        void bind(Comment comment) {
+        void bind(Comment comment, int position) {
             if (comment != null) {
                 textBy.setText(context.getString(R.string.comment_by, comment.getBy()));
                 textTime.setText(CommonUtil.toTimeSpan(comment.getTime()));
                 textComment.setText(Html.fromHtml(CommonUtil.nullToEmptySting(comment.getText())));
-                if (comment.getKids() != null) {
-                    if (comment.getKids().size() > 0) showMore.setVisibility(View.VISIBLE);
+
+                for (int i = 0; i < comment.getLevel(); i++) {
+                    addDepthView();
+                }
+                if (comment.getLevel() == 0) {
+                    indentation.removeAllViews();
                 }
             }
         }
-    }
 
-    class ProgressIndicatorViewHolder extends RecyclerView.ViewHolder {
-
-        @BindView(R.id.avi_progress_indicator)
-        AVLoadingIndicatorView aviProgressIndicator;
-
-        ProgressIndicatorViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-        }
-
-        void bind() {
-            aviProgressIndicator.show();
+        private void addDepthView() {
+            indentation.setVisibility(View.VISIBLE);
+            indentation.addView(LayoutInflater.from(itemView.getContext()).inflate(R.layout.view_indentation, indentation, false));
         }
     }
 }

@@ -38,7 +38,6 @@ public class StoryRepository implements StoryDataSource {
 
     @Override
     public Observable<Comment> getComment(int id) {
-        return dataSource.getComment(id)
-                .compose(RxUtil.applySchedulers());
+        return dataSource.getComment(id);
     }
 }

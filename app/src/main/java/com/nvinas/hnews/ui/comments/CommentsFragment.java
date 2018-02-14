@@ -74,8 +74,6 @@ public class CommentsFragment extends DaggerFragment implements CommentsContract
         View view = inflater.inflate(R.layout.fragment_comments, container, false);
         unbinder = ButterKnife.bind(this, view);
 
-        swipeRefresh.setOnRefreshListener(() -> presenter.refreshComments());
-
         initCommentUi();
         initStoryUi();
 
@@ -88,9 +86,13 @@ public class CommentsFragment extends DaggerFragment implements CommentsContract
             commentsAdapter = new CommentsAdapter(context, new ArrayList<>(0));
             LinearLayoutManager lm = new LinearLayoutManager(getContext());
             rvComments.setLayoutManager(lm);
-            rvComments.addItemDecoration(
-                    CommonUtil.getDividerItemDecoration(context, R.drawable.divider, lm.getOrientation()));
+            rvComments.addItemDecoration(CommonUtil.getDividerItemDecoration(context, R.drawable.divider, lm.getOrientation()));
             rvComments.setAdapter(commentsAdapter);
+
+            swipeRefresh.setOnRefreshListener(() -> {
+                commentsAdapter.removeAll();
+                presenter.refreshComments();
+            });
         }
     }
 
@@ -106,7 +108,7 @@ public class CommentsFragment extends DaggerFragment implements CommentsContract
             presenter.takeView(this);
 
             List<Integer> kids = story.getKids();
-            if (kids == null || kids.size() <= 0) {
+            if (kids == null) {
                 Timber.d("No comments available");
                 return;
             }
@@ -115,8 +117,8 @@ public class CommentsFragment extends DaggerFragment implements CommentsContract
     }
 
     @Override
-    public void showComments(List<Comment> comments) {
-        commentsAdapter.setComments(comments);
+    public void showComment(@NonNull Comment comment, int pos) {
+        commentsAdapter.addComment(comment, pos);
     }
 
     @Override

@@ -78,6 +78,10 @@ public class Story implements Parcelable {
         this.kids = kids;
     }
 
+    public boolean hasKids() {
+        return kids != null;
+    }
+
     public int getScore() {
         return score;
     }

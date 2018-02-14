@@ -19,6 +19,8 @@ import com.nvinas.hnews.R;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 import timber.log.Timber;
 
@@ -127,4 +129,15 @@ public class CommonUtil {
         return dividerItemDecoration;
     }
 
+    public static <T> List<T> safeSubList(List<T> list, int fromIndex, int toIndex) {
+        int size = list.size();
+        if (fromIndex >= size || toIndex <= 0 || fromIndex >= toIndex) {
+            return Collections.emptyList();
+        }
+
+        fromIndex = Math.max(0, fromIndex);
+        toIndex = Math.min(size, toIndex);
+
+        return list.subList(fromIndex, toIndex);
+    }
 }
