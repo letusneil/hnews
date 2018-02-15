@@ -34,6 +34,10 @@ public class Comment {
     private String type;
     private int level = 0;
 
+    public Comment(int id) {
+        this.id = id;
+    }
+
     public String getBy() {
         return by;
     }

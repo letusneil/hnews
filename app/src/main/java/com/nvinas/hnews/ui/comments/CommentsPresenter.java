@@ -28,7 +28,7 @@ public class CommentsPresenter implements CommentsContract.Presenter {
     private List<Integer> ids;
 
     @Inject
-    CommentsPresenter(StoryRepository storyRepository) {
+    public CommentsPresenter(StoryRepository storyRepository) {
         this.storyRepository = storyRepository;
         this.subscriptions = new CompositeDisposable();
     }
@@ -61,7 +61,7 @@ public class CommentsPresenter implements CommentsContract.Presenter {
                 }));
     }
 
-    private Observable<Comment> getInnerComments(Comment comment, int level) {
+    public Observable<Comment> getInnerComments(Comment comment, int level) {
         if (comment.getKids() != null && !comment.getKids().isEmpty() && comment.getKids().size() > 0) {
             return Observable.just(comment)
                     .mergeWith(

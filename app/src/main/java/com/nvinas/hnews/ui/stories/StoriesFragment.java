@@ -42,10 +42,10 @@ import timber.log.Timber;
 public class StoriesFragment extends DaggerFragment implements StoriesContract.View, StoryItemClickListener {
 
     @BindView(R.id.rv_stories)
-    RecyclerView rvStories;
+    public RecyclerView rvStories;
 
     @BindView(R.id.swipe_refresh)
-    SwipeRefreshLayout swipeRefresh;
+    public SwipeRefreshLayout swipeRefresh;
 
     @BindView(R.id.text_stories_unavailable)
     TextView textStoriesUnavailable;

@@ -98,17 +98,6 @@ public class CommonUtil {
                         DateUtils.MINUTE_IN_MILLIS).toString();
     }
 
-    public static void share(Context context, String subject, String text) {
-        Intent intent = new Intent(Intent.ACTION_SEND)
-                .setType("text/plain")
-                .putExtra(Intent.EXTRA_SUBJECT, subject)
-                .putExtra(Intent.EXTRA_TEXT, !TextUtils.isEmpty(subject) ?
-                        TextUtils.join(" - ", new String[]{subject, text}) : text);
-        if (intent.resolveActivity(context.getPackageManager()) != null) {
-            context.startActivity(intent);
-        }
-    }
-
     public static DividerItemDecoration getDividerItemDecoration(
             @NonNull Context context, @DrawableRes int drawable, @RecyclerView.Orientation int orientation) {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(context, orientation) {
@@ -127,17 +116,5 @@ public class CommonUtil {
             dividerItemDecoration.setDrawable(dividerDrawable);
         }
         return dividerItemDecoration;
-    }
-
-    public static <T> List<T> safeSubList(List<T> list, int fromIndex, int toIndex) {
-        int size = list.size();
-        if (fromIndex >= size || toIndex <= 0 || fromIndex >= toIndex) {
-            return Collections.emptyList();
-        }
-
-        fromIndex = Math.max(0, fromIndex);
-        toIndex = Math.min(size, toIndex);
-
-        return list.subList(fromIndex, toIndex);
     }
 }

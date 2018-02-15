@@ -1,4 +1,24 @@
 apply plugin: 'com.android.application'
+apply plugin: 'jacoco'
+
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
+    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*', '**/*_MembersInjector.class', '**/Dagger*Component.class', '**/*Module_*Factory.class']
+    def debugTree = fileTree(dir: "${buildDir}/intermediates/classes/debug", excludes: fileFilter)
+    def mainSrc = "${project.projectDir}/src/main/java"
+
+    sourceDirectories = files([mainSrc])
+    classDirectories = files([debugTree])
+    executionData = fileTree(dir: "$buildDir", includes: [
+            "jacoco/testDebugUnitTest.exec",
+            "outputs/code-coverage/connected/*coverage.ec"
+    ])
+}
 
 android {
     compileSdkVersion 27
@@ -15,6 +35,9 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     buildTypes {
+        debug {
+            testCoverageEnabled true
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -29,6 +52,17 @@ ext {
     retrofitVersion = '2.3.0'
     daggerVersion = '2.14.1'
     rxVersion = '2.0.1'
+    supportLibraryVersion = '26.1.0'
+    guavaVersion = '18.0'
+    mockitoVersion = '1.10.19'
+    powerMockito = '1.6.2'
+    hamcrestVersion = '1.3'
+    espressoVersion = '2.2.2'
+    junitVersion = '4.12'
+    runnerVersion = '1.0.1'
+    rulesVersion = '1.0.1'
+    dexmakerVersion = '1.2'
+    espressoVersion = '3.0.1'
 }
 
 dependencies {
@@ -36,10 +70,11 @@ dependencies {
     implementation "com.android.support:recyclerview-v7:$supportLibVersion"
     implementation "com.android.support:cardview-v7:$supportLibVersion"
     implementation "com.android.support:design:$supportLibVersion"
+    implementation "com.google.guava:guava:$guavaVersion"
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
 
-    debugCompile "com.squareup.leakcanary:leakcanary-android:$leakcanaryVersion"
-    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$leakcanaryVersion"
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanaryVersion"
+    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakcanaryVersion"
 
     implementation "com.jakewharton:butterknife:$butterknifeVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
@@ -58,14 +93,31 @@ dependencies {
 
     implementation "com.google.dagger:dagger:$daggerVersion"
     annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
-    provided 'org.glassfish:javax.annotation:10.0-b28'
+    compileOnly 'org.glassfish:javax.annotation:10.0-b28'
     implementation "com.google.dagger:dagger-android-support:$daggerVersion"
     annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
 
     implementation 'com.wang.avi:library:2.1.3'
 
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-    implementation 'com.android.support:support-v4:27.0.2'
+    // Dependencies for local unit tests
+    testImplementation "junit:junit:$junitVersion"
+    testImplementation "org.mockito:mockito-all:$mockitoVersion"
+    testImplementation "org.hamcrest:hamcrest-all:$hamcrestVersion"
+
+    // Android Testing Support Library's runner and rules
+    androidTestImplementation "com.android.support.test:runner:$runnerVersion"
+    androidTestImplementation "com.android.support.test:rules:$rulesVersion"
+
+    // Dependencies for Android unit tests
+    androidTestImplementation "junit:junit:$junitVersion"
+    androidTestImplementation "org.mockito:mockito-core:$mockitoVersion"
+    androidTestImplementation "com.google.dexmaker:dexmaker:$dexmakerVersion"
+    androidTestImplementation "com.google.dexmaker:dexmaker-mockito:$dexmakerVersion"
+
+    // Espresso UI Testing
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:$espressoVersion"
+    androidTestImplementation "com.android.support.test.espresso:espresso-contrib:$espressoVersion"
+    androidTestImplementation "com.android.support.test.espresso:espresso-intents:$espressoVersion"
+    androidTestImplementation "com.android.support.test.espresso.idling:idling-concurrent:$espressoVersion"
+    implementation "com.android.support.test.espresso:espresso-idling-resource:$espressoVersion"
 }

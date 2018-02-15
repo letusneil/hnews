@@ -28,7 +28,7 @@ public class StoriesPresenter implements StoriesContract.Presenter {
     private List<Integer> ids;
 
     @Inject
-    StoriesPresenter(StoryRepository storyRepository) {
+    public StoriesPresenter(StoryRepository storyRepository) {
         this.storyRepository = storyRepository;
         this.subscriptions = new CompositeDisposable();
     }
@@ -36,7 +36,9 @@ public class StoriesPresenter implements StoriesContract.Presenter {
     @Override
     public void takeView(StoriesContract.View view) {
         this.view = view;
-        if (initialLoad) loadStories();
+        if (initialLoad) {
+            loadStories();
+        }
     }
 
     @Override

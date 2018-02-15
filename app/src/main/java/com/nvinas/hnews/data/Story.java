@@ -32,7 +32,7 @@ public class Story implements Parcelable {
     private int score;
     @SerializedName("time")
     @Expose
-    private int time;
+    private long time;
     @SerializedName("title")
     @Expose
     private String title;
@@ -45,6 +45,23 @@ public class Story implements Parcelable {
 
     public Story() {
     }
+
+    public Story(int id) {
+        this.id = id;
+    }
+
+    public Story(int id, String by, int descendants, List<Integer> kids, int score, long time, String title, String type, String url) {
+        this.id = id;
+        this.by = by;
+        this.descendants = descendants;
+        this.kids = kids;
+        this.score = score;
+        this.time = time;
+        this.title = title;
+        this.type = type;
+        this.url = url;
+    }
+
 
     public String getBy() {
         return by;
@@ -90,11 +107,11 @@ public class Story implements Parcelable {
         this.score = score;
     }
 
-    public int getTime() {
+    public long getTime() {
         return time;
     }
 
-    public void setTime(int time) {
+    public void setTime(long time) {
         this.time = time;
     }
 
@@ -141,7 +158,7 @@ public class Story implements Parcelable {
         dest.writeInt(this.id);
         dest.writeList(this.kids);
         dest.writeInt(this.score);
-        dest.writeInt(this.time);
+        dest.writeLong(this.time);
         dest.writeString(this.title);
         dest.writeString(this.type);
         dest.writeString(this.url);
@@ -154,7 +171,7 @@ public class Story implements Parcelable {
         this.kids = new ArrayList<Integer>();
         in.readList(this.kids, Integer.class.getClassLoader());
         this.score = in.readInt();
-        this.time = in.readInt();
+        this.time = in.readLong();
         this.title = in.readString();
         this.type = in.readString();
         this.url = in.readString();

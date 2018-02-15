@@ -20,7 +20,7 @@ public class StoryRepository implements StoryDataSource {
     private StoryDataSource dataSource;
 
     @Inject
-    StoryRepository(StoryDataSource dataSource) {
+    public StoryRepository(StoryDataSource dataSource) {
         this.dataSource = dataSource;
     }
 
