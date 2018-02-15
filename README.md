@@ -12,7 +12,7 @@ hnews is an Hackernews client powered by [Hackernews API](https://github.com/Hac
 
 * Top stories, pagination
 * Comments (replies, all levels)
-* Webview article viewing
+* Webview article viewing by clicking on the url
 
 ### Technical Approach
 
