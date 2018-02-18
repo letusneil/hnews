@@ -3,6 +3,7 @@ package com.nvinas.hnews.ui.comments;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,17 +88,15 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         }
 
         void bind(Comment comment, int position) {
-            if (comment != null) {
-                textBy.setText(context.getString(R.string.comment_by, comment.getBy()));
-                textTime.setText(CommonUtil.toTimeSpan(comment.getTime()));
-                textComment.setText(Html.fromHtml(CommonUtil.nullToEmptySting(comment.getText())));
+            textBy.setText(context.getString(R.string.comment_by, comment.getBy()));
+            textTime.setText(CommonUtil.toTimeSpan(comment.getTime()));
+            textComment.setText(Html.fromHtml(CommonUtil.nullToEmptySting(comment.getText())));
 
-                for (int i = 0; i < comment.getLevel(); i++) {
-                    addDepthView();
-                }
-                if (comment.getLevel() == 0) {
-                    indentation.removeAllViews();
-                }
+            for (int i = 0; i < comment.getLevel(); i++) {
+                addDepthView();
+            }
+            if (comment.getLevel() == 0) {
+                indentation.removeAllViews();
             }
         }
 
