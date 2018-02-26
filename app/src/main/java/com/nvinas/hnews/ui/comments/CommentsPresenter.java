@@ -1,9 +1,8 @@
 package com.nvinas.hnews.ui.comments;
 
-import com.nvinas.hnews.common.util.CommonUtil;
+import com.nvinas.hnews.common.di.annotation.ActivityScope;
 import com.nvinas.hnews.common.util.RxUtil;
 import com.nvinas.hnews.data.Comment;
-import com.nvinas.hnews.data.Story;
 import com.nvinas.hnews.data.source.StoryRepository;
 
 import java.util.ArrayList;
@@ -12,14 +11,12 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
-import io.reactivex.Single;
 import io.reactivex.disposables.CompositeDisposable;
 import timber.log.Timber;
 
 /**
  * Created by nvinas on 10/02/2018.
  */
-
 public class CommentsPresenter implements CommentsContract.Presenter {
 
     private CommentsContract.View view;
@@ -37,6 +34,7 @@ public class CommentsPresenter implements CommentsContract.Presenter {
     public void loadComments(List<Integer> kids) {
         this.ids = kids;
         view.setProgressIndicator(true);
+        view.setIdleStatus(false);
 
         List<Comment> comments = new ArrayList<>(0);
         subscriptions.add(Observable.fromIterable(kids)
@@ -53,10 +51,12 @@ public class CommentsPresenter implements CommentsContract.Presenter {
                     if (isAlive()) {
                         view.setProgressIndicator(false);
                         view.showErrorMessage(e.getMessage());
+                        view.setIdleStatus(true);
                     }
                 }, () -> {
                     if (isAlive()) {
                         view.setProgressIndicator(false);
+                        view.setIdleStatus(true);
                     }
                 }));
     }
@@ -102,4 +102,5 @@ public class CommentsPresenter implements CommentsContract.Presenter {
     private boolean isAlive() {
         return view != null && view.isActive();
     }
+
 }

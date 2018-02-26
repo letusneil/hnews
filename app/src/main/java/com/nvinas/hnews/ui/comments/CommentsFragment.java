@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nvinas.hnews.R;
+import com.nvinas.hnews.common.listener.FragmentIdlingResourceListener;
 import com.nvinas.hnews.common.util.ActivityUtil;
 import com.nvinas.hnews.common.util.CommonUtil;
 import com.nvinas.hnews.data.Comment;
@@ -37,7 +38,7 @@ import timber.log.Timber;
  * Created by nvinas on 10/02/2018.
  */
 
-public class CommentsFragment extends DaggerFragment implements CommentsContract.View {
+public class CommentsFragment extends DaggerFragment implements CommentsContract.View, FragmentIdlingResourceListener {
 
     @BindView(R.id.tv_item_title)
     TextView title;
@@ -60,6 +61,7 @@ public class CommentsFragment extends DaggerFragment implements CommentsContract
 
     private CommentsAdapter commentsAdapter;
     private Unbinder unbinder;
+    private boolean isIdle = true;
 
     @Inject
     CommentsContract.Presenter presenter;
@@ -171,5 +173,15 @@ public class CommentsFragment extends DaggerFragment implements CommentsContract
         }
         presenter.dropView();
         super.onDestroy();
+    }
+
+    @Override
+    public boolean isIdle() {
+        return isIdle;
+    }
+
+    @Override
+    public void setIdleStatus(boolean isIdle) {
+        this.isIdle = isIdle;
     }
 }

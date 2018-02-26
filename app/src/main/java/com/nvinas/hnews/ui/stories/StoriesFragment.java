@@ -16,6 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nvinas.hnews.R;
+import com.nvinas.hnews.common.di.annotation.ActivityScope;
+import com.nvinas.hnews.common.listener.FragmentIdlingResourceListener;
 import com.nvinas.hnews.ui.comments.CommentsActivity;
 import com.nvinas.hnews.common.listener.StoryItemClickListener;
 import com.nvinas.hnews.common.listener.RecyclerViewScrollListener;
@@ -38,8 +40,8 @@ import timber.log.Timber;
 /**
  * Created by nvinas on 09/02/2018.
  */
-
-public class StoriesFragment extends DaggerFragment implements StoriesContract.View, StoryItemClickListener {
+@ActivityScope
+public class StoriesFragment extends DaggerFragment implements StoriesContract.View, StoryItemClickListener, FragmentIdlingResourceListener {
 
     @BindView(R.id.rv_stories)
     public RecyclerView rvStories;
@@ -55,6 +57,11 @@ public class StoriesFragment extends DaggerFragment implements StoriesContract.V
 
     private StoriesAdapter storiesAdapter;
     private Unbinder unbinder;
+    private boolean isIdle = true;
+
+    private ArrayList<Story> stories = new ArrayList<>();
+    private static final String KEY_STORIES = "key_stories";
+
 
     @Inject
     public StoriesFragment() {
@@ -65,7 +72,16 @@ public class StoriesFragment extends DaggerFragment implements StoriesContract.V
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_stories, container, false);
         unbinder = ButterKnife.bind(this, rootView);
+
         initUi();
+
+        if (savedInstanceState == null) {
+            presenter.takeView(this);
+            presenter.loadStories();
+        } else {
+            showStories(savedInstanceState.getParcelableArrayList(KEY_STORIES));
+        }
+
         return rootView;
     }
 
@@ -84,15 +100,14 @@ public class StoriesFragment extends DaggerFragment implements StoriesContract.V
                 }
             });
             rvStories.setAdapter(storiesAdapter);
-
             swipeRefresh.setOnRefreshListener(() -> presenter.loadStories());
         }
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        presenter.takeView(this);
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putParcelableArrayList(KEY_STORIES, stories);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -102,6 +117,7 @@ public class StoriesFragment extends DaggerFragment implements StoriesContract.V
             showStoriesUnavailableError();
             return;
         }
+        this.stories = new ArrayList<>(stories);
         storiesAdapter.setStories(stories);
     }
 
@@ -170,5 +186,15 @@ public class StoriesFragment extends DaggerFragment implements StoriesContract.V
 
     public static StoriesFragment newInstance() {
         return new StoriesFragment();
+    }
+
+    @Override
+    public boolean isIdle() {
+        return isIdle;
+    }
+
+    @Override
+    public void setIdleStatus(boolean isIdle) {
+        this.isIdle = isIdle;
     }
 }

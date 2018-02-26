@@ -1,5 +1,6 @@
 package com.nvinas.hnews.ui.stories;
 
+import com.nvinas.hnews.common.di.annotation.ActivityScope;
 import com.nvinas.hnews.common.util.CommonUtil;
 import com.nvinas.hnews.common.util.RxUtil;
 import com.nvinas.hnews.data.Story;
@@ -17,13 +18,13 @@ import timber.log.Timber;
 /**
  * Created by nvinas on 10/02/2018.
  */
+@ActivityScope
 public class StoriesPresenter implements StoriesContract.Presenter {
 
     private StoriesContract.View view;
     private StoryRepository storyRepository;
     private final CompositeDisposable subscriptions;
 
-    private boolean initialLoad = true;
     private int currentPage = 1;
     private List<Integer> ids;
 
@@ -36,9 +37,6 @@ public class StoriesPresenter implements StoriesContract.Presenter {
     @Override
     public void takeView(StoriesContract.View view) {
         this.view = view;
-        if (initialLoad) {
-            loadStories();
-        }
     }
 
     @Override
@@ -49,13 +47,12 @@ public class StoriesPresenter implements StoriesContract.Presenter {
 
     @Override
     public void loadStories() {
-        initialLoad = true;
         view.setProgressIndicator(true);
+        view.setIdleStatus(false);
         subscriptions.add(storyRepository
                 .getTopStories()
                 .subscribe(x -> {
                             this.ids = x;
-                            initialLoad = false;
                             loadStoriesInfo();
                         },
                         throwable -> {
@@ -63,6 +60,7 @@ public class StoriesPresenter implements StoriesContract.Presenter {
                                 view.setProgressIndicator(false);
                                 view.showStoriesUnavailableError();
                                 view.showErrorMessage(throwable.getMessage());
+                                view.setIdleStatus(true);
                             }
                         }));
     }
@@ -73,14 +71,20 @@ public class StoriesPresenter implements StoriesContract.Presenter {
         int firstItem = lastItem - CommonUtil.Constants.PAGE_STORY_SIZE;
         List<Story> stories = new ArrayList<>();
 
+        Timber.d("ids %s", ids);
+
         subscriptions.add(
                 Observable.just(ids.subList(firstItem, lastItem))
                         .concatMapIterable(list -> list)
                         .concatMap(id -> storyRepository.getStory(id))
-                        .subscribe(stories::add, Timber::e, () -> {
+                        .subscribe(stories::add, e -> {
+                            Timber.e(e.getMessage());
+                            view.setIdleStatus(true);
+                        }, () -> {
                             if (isAlive()) {
                                 view.setProgressIndicator(false);
                                 view.showStories(stories);
+                                view.setIdleStatus(true);
                                 currentPage++;
                             }
                         }));

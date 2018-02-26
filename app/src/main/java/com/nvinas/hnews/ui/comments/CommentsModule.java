@@ -1,5 +1,7 @@
 package com.nvinas.hnews.ui.comments;
 
+import com.nvinas.hnews.common.di.annotation.ActivityScope;
+
 import dagger.Binds;
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;

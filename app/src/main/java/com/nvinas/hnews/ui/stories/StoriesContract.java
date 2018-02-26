@@ -25,6 +25,8 @@ public interface StoriesContract {
 
         void showStoriesUnavailableError();
 
+        void setIdleStatus(boolean isIdle);
+
         boolean isActive();
     }
 

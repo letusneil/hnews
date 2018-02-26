@@ -24,6 +24,8 @@ public interface CommentsContract {
 
         void showComment(@NonNull Comment comment, int pos);
 
+        void setIdleStatus(boolean isIdle);
+
         boolean isActive();
     }
 

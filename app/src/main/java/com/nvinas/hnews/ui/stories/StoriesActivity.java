@@ -6,6 +6,7 @@ import com.nvinas.hnews.R;
 import com.nvinas.hnews.common.util.ActivityUtil;
 
 import dagger.android.support.DaggerAppCompatActivity;
+import timber.log.Timber;
 
 public class StoriesActivity extends DaggerAppCompatActivity {
 

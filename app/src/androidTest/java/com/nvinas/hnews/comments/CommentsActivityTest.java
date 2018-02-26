@@ -1,5 +1,7 @@
 package com.nvinas.hnews.comments;
 
+import android.support.test.espresso.Espresso;
+import android.support.test.espresso.IdlingRegistry;
 import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.espresso.core.internal.deps.guava.collect.Lists;
 import android.support.test.internal.runner.junit4.AndroidJUnit4ClassRunner;
@@ -11,7 +13,9 @@ import com.nvinas.hnews.R;
 import com.nvinas.hnews.data.Story;
 import com.nvinas.hnews.ui.comments.CommentsActivity;
 import com.nvinas.hnews.ui.comments.CommentsFragment;
+import com.nvinas.hnews.util.FragmentIdlingResource;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -31,6 +35,7 @@ public class CommentsActivityTest {
 
     CommentsActivity commentsActivity;
     CommentsFragment commentsFragment;
+    FragmentIdlingResource fragmentIdlingResource;
 
     @Rule
     public ActivityTestRule<CommentsActivity> commentsActivityActivityTestRule =
@@ -40,13 +45,14 @@ public class CommentsActivityTest {
     public void setup() {
         commentsActivity = commentsActivityActivityTestRule.getActivity();
         commentsActivityActivityTestRule.getActivity().runOnUiThread(() -> commentsFragment = startCommentsFragment());
+        fragmentIdlingResource = new FragmentIdlingResource(commentsFragment);
     }
 
     @Test
     public void commentsActivityCreated() {
         // container test
         onView(allOf(withId(R.id.container),
-                withParent(withParent(withId(R.id.coordinator_layout))), isDisplayed()));
+                withParent(withParent(withId(R.id.activity_stories))), isDisplayed()));
         // appbar test
         onView(allOf(withId(R.id.toolbar),
                 withParent(withParent(withId(R.id.appbar))), isDisplayed()));
@@ -78,4 +84,10 @@ public class CommentsActivityTest {
                 withId(R.id.rv_comments),
                 withParent(withParent(withId(R.id.swipe_refresh))), isDisplayed()));
     }
+
+    @After
+    public void teardown() {
+        IdlingRegistry.getInstance().unregister(fragmentIdlingResource);
+    }
+
 }
