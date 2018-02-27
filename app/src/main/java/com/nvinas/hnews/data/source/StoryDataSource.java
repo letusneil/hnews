@@ -18,4 +18,6 @@ public interface StoryDataSource {
     Observable<List<Integer>> getTopStories();
 
     Observable<Comment> getComment(int id);
+
+    void refreshStories();
 }

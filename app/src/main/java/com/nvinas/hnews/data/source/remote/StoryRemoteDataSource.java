@@ -43,6 +43,11 @@ public class StoryRemoteDataSource implements StoryDataSource {
         return api.getTopStories();
     }
 
+    @Override
+    public void refreshStories() {
+        throw new UnsupportedOperationException();
+    }
+
     interface HackerNewsService {
 
         @GET(CommonUtil.Url.TOP_STORIES)

@@ -46,14 +46,21 @@ public class StoriesPresenter implements StoriesContract.Presenter {
     }
 
     @Override
-    public void loadStories() {
-        view.setProgressIndicator(true);
+    public void loadStoryIds(boolean forceUpdate) {
+        view.setProgressIndicator(forceUpdate);
         view.setIdleStatus(false);
+
+        if (forceUpdate) {
+            storyRepository.refreshStories();
+        }
+
         subscriptions.add(storyRepository
                 .getTopStories()
                 .subscribe(x -> {
-                            this.ids = x;
-                            loadStoriesInfo();
+                            ids = x;
+                            if (forceUpdate) {
+                                loadStories();
+                            }
                         },
                         throwable -> {
                             if (isAlive()) {
@@ -66,7 +73,7 @@ public class StoriesPresenter implements StoriesContract.Presenter {
     }
 
     @Override
-    public void loadStoriesInfo() {
+    public void loadStories() {
         int lastItem = currentPage * CommonUtil.Constants.PAGE_STORY_SIZE;
         int firstItem = lastItem - CommonUtil.Constants.PAGE_STORY_SIZE;
         List<Story> stories = new ArrayList<>();

@@ -77,8 +77,10 @@ public class StoriesFragment extends DaggerFragment implements StoriesContract.V
 
         if (savedInstanceState == null) {
             presenter.takeView(this);
-            presenter.loadStories();
+            presenter.loadStoryIds(true);
         } else {
+            presenter.takeView(this);
+            presenter.loadStoryIds(false);
             showStories(savedInstanceState.getParcelableArrayList(KEY_STORIES));
         }
 
@@ -96,11 +98,13 @@ public class StoriesFragment extends DaggerFragment implements StoriesContract.V
                 @Override
                 public void onLoadMore(int page, int totalItemsCount) {
                     storiesAdapter.showLoadingIndicator();
-                    presenter.loadStoriesInfo();
+                    presenter.loadStories();
                 }
             });
             rvStories.setAdapter(storiesAdapter);
-            swipeRefresh.setOnRefreshListener(() -> presenter.loadStories());
+            swipeRefresh.setOnRefreshListener(() -> {
+                presenter.loadStoryIds(true);
+            });
         }
     }
 

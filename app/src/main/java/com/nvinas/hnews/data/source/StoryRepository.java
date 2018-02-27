@@ -17,27 +17,40 @@ import io.reactivex.Observable;
 @Singleton
 public class StoryRepository implements StoryDataSource {
 
-    private StoryDataSource dataSource;
+    private StoryDataSource remoteDataSource;
+
+    private Observable<List<Integer>> cachedStoryIds;
+
+    private boolean cacheIsDirty = false;
 
     @Inject
-    public StoryRepository(StoryDataSource dataSource) {
-        this.dataSource = dataSource;
+    public StoryRepository(StoryDataSource remoteDataSource) {
+        this.remoteDataSource = remoteDataSource;
     }
 
     @Override
     public Observable<List<Integer>> getTopStories() {
-        return dataSource.getTopStories()
+        if (!cacheIsDirty && cachedStoryIds != null) {
+            return cachedStoryIds;
+        }
+        cachedStoryIds = remoteDataSource.getTopStories()
                 .compose(RxUtil.applySchedulers());
+        return cachedStoryIds;
     }
 
     @Override
     public Observable<Story> getStory(int id) {
-        return dataSource.getStory(id)
+        return remoteDataSource.getStory(id)
                 .compose(RxUtil.applySchedulers());
     }
 
     @Override
     public Observable<Comment> getComment(int id) {
-        return dataSource.getComment(id);
+        return remoteDataSource.getComment(id);
+    }
+
+    @Override
+    public void refreshStories() {
+        cacheIsDirty = true;
     }
 }

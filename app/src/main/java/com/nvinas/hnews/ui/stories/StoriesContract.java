@@ -32,8 +32,8 @@ public interface StoriesContract {
 
     interface Presenter extends BasePresenter<View> {
 
-        void loadStories();
+        void loadStoryIds(boolean forceUpdate);
 
-        void loadStoriesInfo();
+        void loadStories();
     }
 }
