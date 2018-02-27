@@ -59,6 +59,8 @@ public class StoriesFragment extends DaggerFragment implements StoriesContract.V
     private Unbinder unbinder;
     private boolean isIdle = true;
 
+    private int currentPage = 1;
+    private static final String KEY_CURRENT_PAGE = "key_current_page";
     private ArrayList<Story> stories = new ArrayList<>();
     private static final String KEY_STORIES = "key_stories";
 
@@ -81,6 +83,7 @@ public class StoriesFragment extends DaggerFragment implements StoriesContract.V
         } else {
             presenter.takeView(this);
             presenter.loadStoryIds(false);
+            presenter.setCurrentPage(savedInstanceState.getInt(KEY_CURRENT_PAGE));
             showStories(savedInstanceState.getParcelableArrayList(KEY_STORIES));
         }
 
@@ -111,6 +114,7 @@ public class StoriesFragment extends DaggerFragment implements StoriesContract.V
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         outState.putParcelableArrayList(KEY_STORIES, stories);
+        outState.putInt(KEY_CURRENT_PAGE, stories.size() / CommonUtil.Constants.PAGE_STORY_SIZE);
         super.onSaveInstanceState(outState);
     }
 
@@ -121,7 +125,7 @@ public class StoriesFragment extends DaggerFragment implements StoriesContract.V
             showStoriesUnavailableError();
             return;
         }
-        this.stories = new ArrayList<>(stories);
+        this.stories.addAll(stories);
         storiesAdapter.setStories(stories);
     }
 

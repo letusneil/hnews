@@ -35,5 +35,7 @@ public interface StoriesContract {
         void loadStoryIds(boolean forceUpdate);
 
         void loadStories();
+
+        void setCurrentPage(int currentPage);
     }
 }

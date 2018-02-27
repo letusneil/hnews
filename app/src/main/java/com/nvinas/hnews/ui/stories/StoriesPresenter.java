@@ -25,8 +25,8 @@ public class StoriesPresenter implements StoriesContract.Presenter {
     private StoryRepository storyRepository;
     private final CompositeDisposable subscriptions;
 
-    private int currentPage = 1;
     private List<Integer> ids;
+    private int currentPage = 1;
 
     @Inject
     public StoriesPresenter(StoryRepository storyRepository) {
@@ -95,6 +95,11 @@ public class StoriesPresenter implements StoriesContract.Presenter {
                                 currentPage++;
                             }
                         }));
+    }
+
+    @Override
+    public void setCurrentPage(int currentPage) {
+        this.currentPage = currentPage;
     }
 
     private boolean isAlive() {
