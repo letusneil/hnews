@@ -23,7 +23,7 @@ public class CommentsActivity extends DaggerAppCompatActivity {
         setContentView(R.layout.activity_comments);
 
         // Set up the toolbar.
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar ab = getSupportActionBar();
         if (ab != null) {

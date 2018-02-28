@@ -50,7 +50,7 @@ public class CommonUtil {
         }
 
         public static final int PAGE_STORY_SIZE = 8;
-        public static final int PAGE_COMMENT_SIZE = 24;
+        public static final int PAGE_COMMENT_SIZE = 2;
         public static final String EMPTY_STRING = "";
         public static final String INTENT_KEY_URL = "key_story_url";
         public static final String INTENT_KEY_STORY = "key_story";

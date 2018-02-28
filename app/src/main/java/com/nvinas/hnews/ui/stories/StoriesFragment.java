@@ -76,11 +76,10 @@ public class StoriesFragment extends DaggerFragment implements StoriesContract.V
 
         initUi();
 
+        presenter.takeView(this);
         if (savedInstanceState == null) {
-            presenter.takeView(this);
             presenter.loadStories(true);
         } else {
-            presenter.takeView(this);
             presenter.setNextPage(savedInstanceState.getInt(KEY_CURRENT_PAGE) + 1);
             showStories(savedInstanceState.getParcelableArrayList(KEY_STORIES));
         }

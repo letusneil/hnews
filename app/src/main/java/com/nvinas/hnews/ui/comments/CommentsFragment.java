@@ -63,6 +63,11 @@ public class CommentsFragment extends DaggerFragment implements CommentsContract
     private Unbinder unbinder;
     private boolean isIdle = true;
 
+    private ArrayList<Comment> commentItems = new ArrayList<>(0);
+    private static final String KEY_COMMENTS = "key_comments";
+    private Story story;
+    private static final String KEY_COMMENT_STORY = "key_story_comment";
+
     @Inject
     CommentsContract.Presenter presenter;
 
@@ -77,7 +82,27 @@ public class CommentsFragment extends DaggerFragment implements CommentsContract
         unbinder = ButterKnife.bind(this, view);
 
         initCommentUi();
-        initStoryUi();
+        presenter.takeView(this);
+        if (savedInstanceState == null) {
+            Bundle bundle = getArguments();
+            if (bundle != null) {
+                Story storyBundle = bundle.getParcelable(CommonUtil.Constants.INTENT_KEY_STORY);
+                if (storyBundle != null) {
+                    story = storyBundle;
+                    initStoryUi();
+                    List<Integer> kids = story.getKids();
+                    if (kids != null) {
+                        initCommentUi();
+                        presenter.loadComments(kids);
+                    }
+                }
+            }
+        } else {
+            story = savedInstanceState.getParcelable(KEY_COMMENT_STORY);
+            commentItems = savedInstanceState.getParcelableArrayList(KEY_COMMENTS);
+            showStoryInfo(story);
+            showComments(commentItems);
+        }
 
         return view;
     }
@@ -92,35 +117,27 @@ public class CommentsFragment extends DaggerFragment implements CommentsContract
             rvComments.setAdapter(commentsAdapter);
 
             swipeRefresh.setOnRefreshListener(() -> {
+                commentItems.clear();
                 commentsAdapter.removeAll();
-                presenter.refreshComments();
+                presenter.loadComments(story.getKids());
             });
         }
     }
 
     private void initStoryUi() {
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            Story story = bundle.getParcelable(CommonUtil.Constants.INTENT_KEY_STORY);
-            if (story == null) {
-                Timber.d("Story is null!");
-                return;
-            }
-            showStoryInfo(story);
-            presenter.takeView(this);
-
-            List<Integer> kids = story.getKids();
-            if (kids == null) {
-                Timber.d("No comments available");
-                return;
-            }
-            presenter.loadComments(story.getKids());
-        }
+        showStoryInfo(story);
     }
 
     @Override
-    public void showComment(@NonNull Comment comment, int pos) {
-        commentsAdapter.addComment(comment, pos);
+    public void showComments(@NonNull List<Comment> comments) {
+        commentItems = new ArrayList<>(comments);
+        commentsAdapter.setComments(comments);
+    }
+
+    @Override
+    public void showComment(@NonNull Comment comment) {
+        commentItems.add(comment);
+        commentsAdapter.addComment(comment, commentItems.size());
     }
 
     @Override
@@ -164,6 +181,14 @@ public class CommentsFragment extends DaggerFragment implements CommentsContract
     @Override
     public boolean isActive() {
         return isAdded();
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        Timber.d("Comment size? %s", commentItems.size());
+        outState.putParcelable(KEY_COMMENT_STORY, story);
+        outState.putParcelableArrayList(KEY_COMMENTS, commentItems);
+        super.onSaveInstanceState(outState);
     }
 
     @Override

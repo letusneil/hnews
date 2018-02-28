@@ -1,6 +1,5 @@
 package com.nvinas.hnews.ui.comments;
 
-import com.nvinas.hnews.common.di.annotation.ActivityScope;
 import com.nvinas.hnews.common.util.RxUtil;
 import com.nvinas.hnews.data.Comment;
 import com.nvinas.hnews.data.source.StoryRepository;
@@ -32,7 +31,7 @@ public class CommentsPresenter implements CommentsContract.Presenter {
 
     @Override
     public void loadComments(List<Integer> kids) {
-        this.ids = kids;
+        ids = kids;
         view.setProgressIndicator(true);
         view.setIdleStatus(false);
 
@@ -44,9 +43,8 @@ public class CommentsPresenter implements CommentsContract.Presenter {
                 .subscribe(a -> {
                     Timber.d("Comment id: %s and level: %s", a.getId(), a.getLevel());
                     comments.add(a);
-                    if (isAlive()) {
-                        view.showComment(a, comments.size());
-                    }
+                    if (isAlive())
+                        view.showComment(a);
                 }, e -> {
                     if (isAlive()) {
                         view.setProgressIndicator(false);
@@ -79,13 +77,6 @@ public class CommentsPresenter implements CommentsContract.Presenter {
                                     .concatMap(x -> getInnerComments(x, level + 1)));
         }
         return Observable.just(comment);
-    }
-
-    @Override
-    public void refreshComments() {
-        if (ids != null) {
-            loadComments(ids);
-        }
     }
 
     @Override

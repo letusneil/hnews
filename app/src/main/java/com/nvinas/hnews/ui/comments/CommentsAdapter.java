@@ -19,6 +19,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 /**
  * Created by nvinas on 10/02/2018.
@@ -59,7 +60,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     }
 
     void setComments(List<Comment> comments) {
-        this.comments.addAll(comments);
+        this.comments = comments;
         notifyDataSetChanged();
     }
 
@@ -92,11 +93,12 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
             textTime.setText(CommonUtil.toTimeSpan(comment.getTime()));
             textComment.setText(Html.fromHtml(CommonUtil.nullToEmptySting(comment.getText())));
 
-            for (int i = 0; i < comment.getLevel(); i++) {
-                addDepthView();
-            }
             if (comment.getLevel() == 0) {
                 indentation.removeAllViews();
+            }
+
+            for (int i = 0; i < comment.getLevel(); i++) {
+                addDepthView();
             }
         }
 

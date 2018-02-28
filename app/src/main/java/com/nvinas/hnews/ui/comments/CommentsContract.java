@@ -22,7 +22,9 @@ public interface CommentsContract {
 
         void showStoryWebview(@NonNull String url);
 
-        void showComment(@NonNull Comment comment, int pos);
+        void showComments(@NonNull List<Comment> comments);
+
+        void showComment(@NonNull Comment comment);
 
         void setIdleStatus(boolean isIdle);
 
@@ -30,8 +32,6 @@ public interface CommentsContract {
     }
 
     interface Presenter extends BasePresenter<View> {
-
-        void refreshComments();
 
         void loadComments(List<Integer> ids);
     }
