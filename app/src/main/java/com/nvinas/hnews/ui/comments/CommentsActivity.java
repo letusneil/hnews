@@ -119,7 +119,6 @@ public class CommentsActivity extends DaggerAppCompatActivity
         commentsAdapter = new CommentsAdapter(this, new ArrayList<>(0));
         LinearLayoutManager lm = new LinearLayoutManager(this);
         rvComments.setLayoutManager(lm);
-        rvComments.addItemDecoration(CommonUtil.getDividerItemDecoration(this, R.drawable.divider, lm.getOrientation()));
         rvComments.setAdapter(commentsAdapter);
 
         swipeRefresh.setOnRefreshListener(() -> {
