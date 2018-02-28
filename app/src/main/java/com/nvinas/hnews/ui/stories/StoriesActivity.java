@@ -13,7 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nvinas.hnews.R;
-import com.nvinas.hnews.common.listener.FragmentIdlingResourceListener;
+import com.nvinas.hnews.common.listener.ActivityIdlingResourceListener;
 import com.nvinas.hnews.common.listener.RecyclerViewScrollListener;
 import com.nvinas.hnews.common.listener.StoryItemClickListener;
 import com.nvinas.hnews.common.util.ActivityUtil;
@@ -34,7 +34,7 @@ import dagger.android.support.DaggerAppCompatActivity;
 import timber.log.Timber;
 
 public class StoriesActivity extends DaggerAppCompatActivity
-        implements StoriesContract.View, StoryItemClickListener, FragmentIdlingResourceListener {
+        implements StoriesContract.View, StoryItemClickListener, ActivityIdlingResourceListener {
 
     @BindView(R.id.rv_stories)
     public RecyclerView rvStories;

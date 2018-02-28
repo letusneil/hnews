@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'jacoco'
 
-task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport', 'connectedDebugAndroidTest']) {
 
     reports {
         xml.enabled = true

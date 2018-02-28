@@ -1,6 +1,5 @@
 package com.nvinas.hnews.ui.comments;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,13 +9,12 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nvinas.hnews.R;
-import com.nvinas.hnews.common.listener.FragmentIdlingResourceListener;
+import com.nvinas.hnews.common.listener.ActivityIdlingResourceListener;
 import com.nvinas.hnews.common.util.ActivityUtil;
 import com.nvinas.hnews.common.util.CommonUtil;
 import com.nvinas.hnews.data.Comment;
@@ -39,7 +37,7 @@ import timber.log.Timber;
  */
 
 public class CommentsActivity extends DaggerAppCompatActivity
-        implements CommentsContract.View, FragmentIdlingResourceListener {
+        implements CommentsContract.View, ActivityIdlingResourceListener {
 
     @BindView(R.id.tv_item_title)
     TextView title;

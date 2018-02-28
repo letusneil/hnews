@@ -4,18 +4,22 @@ import android.support.test.espresso.IdlingRegistry;
 import android.support.test.espresso.NoActivityResumedException;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
+import android.support.test.runner.AndroidJUnit4;
+import android.test.suitebuilder.annotation.LargeTest;
 
 import com.nvinas.hnews.R;
 import com.nvinas.hnews.ui.stories.StoriesActivity;
-import com.nvinas.hnews.util.FragmentIdlingResource;
+import com.nvinas.hnews.util.HnewsActivityIdlingResource;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -27,11 +31,10 @@ import static org.hamcrest.Matchers.allOf;
 /**
  * Created by nvinas on 15/02/2018.
  */
-
+@RunWith(AndroidJUnit4.class)
 public class StoriesActivityTest {
 
-    private StoriesActivity storiesActivity;
-    private FragmentIdlingResource fragmentIdlingResource;
+    HnewsActivityIdlingResource hnewsActivityIdlingResource;
 
     @Rule
     public ActivityTestRule<StoriesActivity> storiesActivityActivityTestRule =
@@ -39,31 +42,28 @@ public class StoriesActivityTest {
 
     @Before
     public void setup() {
-        storiesActivity = storiesActivityActivityTestRule.getActivity();
+        StoriesActivity storiesActivity = storiesActivityActivityTestRule.getActivity();
+        hnewsActivityIdlingResource = new HnewsActivityIdlingResource(storiesActivity);
+        IdlingRegistry.getInstance().register(hnewsActivityIdlingResource);
     }
 
     @Test
-    public void storiesActivityCreated() {
-        // container test
-        onView(allOf(withId(R.id.container), isDisplayed()));
-    }
-
-    @Test
-    public void storiesFragmentCreated() {
-        onView(allOf(withId(R.id.appbar),
-                withId(R.id.toolbar),
-                withId(R.id.rv_stories), isDisplayed()));
+    public void storiesActivityUiCreated() {
+        ViewInteraction recyclerView = onView(
+                allOf(withId(R.id.rv_stories),
+                        withParent(allOf(withId(R.id.swipe_refresh),
+                                withParent(withId(R.id.fragment_stories)))),
+                        isDisplayed()));
     }
 
     @Test
     public void backFromTasksScreen_ExitsApp() {
-        // From the tasks screen, press back should exit the app.
         assertPressingBackExitsApp();
     }
 
     @After
     public void teardown() {
-        IdlingRegistry.getInstance().unregister(fragmentIdlingResource);
+        IdlingRegistry.getInstance().unregister(hnewsActivityIdlingResource);
     }
 
     private void assertPressingBackExitsApp() {

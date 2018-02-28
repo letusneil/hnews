@@ -1,6 +1,5 @@
 package com.nvinas.hnews.webview;
 
-import android.support.test.espresso.web.sugar.Web;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 

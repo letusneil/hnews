@@ -6,7 +6,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.nvinas.hnews.R;
 import com.nvinas.hnews.ui.comments.CommentsActivity;
-import com.nvinas.hnews.util.FragmentIdlingResource;
+import com.nvinas.hnews.util.HnewsActivityIdlingResource;
 
 import org.junit.After;
 import org.junit.Before;
@@ -26,8 +26,7 @@ import static org.hamcrest.Matchers.allOf;
 @RunWith(AndroidJUnit4.class)
 public class CommentsActivityTest {
 
-    CommentsActivity commentsActivity;
-    FragmentIdlingResource fragmentIdlingResource;
+    HnewsActivityIdlingResource hnewsActivityIdlingResource;
 
     @Rule
     public ActivityTestRule<CommentsActivity> commentsActivityActivityTestRule =
@@ -35,7 +34,9 @@ public class CommentsActivityTest {
 
     @Before
     public void setup() {
-        commentsActivity = commentsActivityActivityTestRule.getActivity();
+        CommentsActivity commentsActivity = commentsActivityActivityTestRule.getActivity();
+        hnewsActivityIdlingResource = new HnewsActivityIdlingResource(commentsActivity);
+        IdlingRegistry.getInstance().register(hnewsActivityIdlingResource);
     }
 
     @Test
@@ -49,17 +50,19 @@ public class CommentsActivityTest {
     }
 
     @Test
-    public void commentsFragmentCreated() {
-        // check if item is displayed
-        onView(allOf(withId(R.id.tv_item_title),
-                withId(R.id.tv_item_info),
-                withId(R.id.rv_comments),
+    public void commentsActivityUiCreated() {
+        // check if story item is displayed
+        onView(allOf(withId(R.id.story_view), withId(R.id.tv_item_title),
+                withId(R.id.tv_item_info)));
+
+        // check if comment item is displayed
+        onView(allOf(withId(R.id.rv_comments),
                 withParent(withParent(withId(R.id.swipe_refresh))), isDisplayed()));
     }
 
     @After
     public void teardown() {
-        IdlingRegistry.getInstance().unregister(fragmentIdlingResource);
+        IdlingRegistry.getInstance().unregister(hnewsActivityIdlingResource);
     }
 
 }
