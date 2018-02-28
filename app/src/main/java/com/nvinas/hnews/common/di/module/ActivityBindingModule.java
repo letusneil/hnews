@@ -1,6 +1,5 @@
 package com.nvinas.hnews.common.di.module;
 
-import com.nvinas.hnews.common.di.annotation.ActivityScope;
 import com.nvinas.hnews.ui.comments.CommentsActivity;
 import com.nvinas.hnews.ui.comments.CommentsModule;
 import com.nvinas.hnews.ui.stories.StoriesActivity;
@@ -15,7 +14,6 @@ import dagger.android.ContributesAndroidInjector;
 @Module
 public abstract class ActivityBindingModule {
 
-    @ActivityScope
     @ContributesAndroidInjector(modules = StoriesModule.class)
     abstract StoriesActivity storiesActivity();
 

@@ -16,7 +16,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nvinas.hnews.R;
-import com.nvinas.hnews.common.di.annotation.ActivityScope;
 import com.nvinas.hnews.common.listener.FragmentIdlingResourceListener;
 import com.nvinas.hnews.ui.comments.CommentsActivity;
 import com.nvinas.hnews.common.listener.StoryItemClickListener;
@@ -40,7 +39,6 @@ import timber.log.Timber;
 /**
  * Created by nvinas on 09/02/2018.
  */
-@ActivityScope
 public class StoriesFragment extends DaggerFragment implements StoriesContract.View, StoryItemClickListener, FragmentIdlingResourceListener {
 
     @BindView(R.id.rv_stories)

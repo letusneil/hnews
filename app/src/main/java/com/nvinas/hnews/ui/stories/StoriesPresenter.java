@@ -1,6 +1,5 @@
 package com.nvinas.hnews.ui.stories;
 
-import com.nvinas.hnews.common.di.annotation.ActivityScope;
 import com.nvinas.hnews.common.util.CommonUtil;
 import com.nvinas.hnews.common.util.RxUtil;
 import com.nvinas.hnews.data.Story;
@@ -18,7 +17,6 @@ import timber.log.Timber;
 /**
  * Created by nvinas on 10/02/2018.
  */
-@ActivityScope
 public class StoriesPresenter implements StoriesContract.Presenter {
 
     private StoriesContract.View view;
