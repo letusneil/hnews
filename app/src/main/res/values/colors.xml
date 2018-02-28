@@ -12,4 +12,12 @@
     <color name="grey_800">#333333</color>
     <color name="grey_850">#262626</color>
     <color name="grey_900">#212121</color>
+
+    <color name="level_1_comment">#388e3c</color>
+    <color name="level_2_comment">#1976d2</color>
+    <color name="level_3_comment">#ec407a</color>
+    <color name="level_4_comment">#d32f2f</color>
+    <color name="level_5_comment">#d500f9</color>
+    <color name="level_6_comment">#f9a825</color>
+    <color name="level_7_comment">#ffff00</color>
 </resources>

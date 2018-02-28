@@ -83,6 +83,9 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         @BindView(R.id.indentation)
         LinearLayout indentation;
 
+        @BindView(R.id.comment_level_indicator)
+        View levelIndicator;
+
         CommentViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -94,15 +97,43 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
             textComment.setText(Html.fromHtml(CommonUtil.nullToEmptySting(comment.getText())));
 
             if (comment.getLevel() == 0) {
+                levelIndicator.setVisibility(View.GONE);
                 indentation.removeAllViews();
             }
 
             for (int i = 0; i < comment.getLevel(); i++) {
-                addDepthView();
+                addDepthView(comment.getLevel());
             }
         }
 
-        private void addDepthView() {
+        private void addDepthView(int level) {
+            switch (level) {
+                case 1:
+                    levelIndicator.setBackgroundResource(R.drawable.shape_level_1_indicator);
+                    break;
+                case 2:
+                    levelIndicator.setBackgroundResource(R.drawable.shape_level_2_indicator);
+                    break;
+                case 3:
+                    levelIndicator.setBackgroundResource(R.drawable.shape_level_3_indicator);
+                    break;
+                case 4:
+                    levelIndicator.setBackgroundResource(R.drawable.shape_level_4_indicator);
+                    break;
+                case 5:
+                    levelIndicator.setBackgroundResource(R.drawable.shape_level_5_indicator);
+                    break;
+                case 6:
+                    levelIndicator.setBackgroundResource(R.drawable.shape_level_6_indicator);
+                    break;
+                case 7:
+                    levelIndicator.setBackgroundResource(R.drawable.shape_level_7_indicator);
+                    break;
+                default:
+                    levelIndicator.setBackgroundResource(R.drawable.shape_default_indicator);
+                    break;
+            }
+
             indentation.setVisibility(View.VISIBLE);
             indentation.addView(LayoutInflater.from(itemView.getContext()).inflate(R.layout.view_indentation, indentation, false));
         }

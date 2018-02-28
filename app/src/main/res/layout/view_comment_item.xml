@@ -9,9 +9,15 @@
         android:id="@+id/indentation"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorSecondary"
         android:orientation="horizontal"
         android:visibility="visible" />
+
+    <View
+        android:id="@+id/comment_level_indicator"
+        android:layout_width="4dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/shape_level_1_indicator" />
 
     <LinearLayout
         android:layout_width="match_parent"
