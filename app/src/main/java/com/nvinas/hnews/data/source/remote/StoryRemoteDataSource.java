@@ -39,12 +39,12 @@ public class StoryRemoteDataSource implements StoryDataSource {
     }
 
     @Override
-    public Observable<List<Integer>> getTopStories() {
+    public Observable<List<Integer>> getTopStoryIds() {
         return api.getTopStories();
     }
 
     @Override
-    public void refreshStories() {
+    public void refreshStoryIds() {
         throw new UnsupportedOperationException();
     }
 

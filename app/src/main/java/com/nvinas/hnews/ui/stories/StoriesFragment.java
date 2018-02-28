@@ -58,12 +58,11 @@ public class StoriesFragment extends DaggerFragment implements StoriesContract.V
     private StoriesAdapter storiesAdapter;
     private Unbinder unbinder;
     private boolean isIdle = true;
+    private boolean isLoadingMoreItems = false;
 
-    private int currentPage = 1;
     private static final String KEY_CURRENT_PAGE = "key_current_page";
     private ArrayList<Story> stories = new ArrayList<>();
     private static final String KEY_STORIES = "key_stories";
-
 
     @Inject
     public StoriesFragment() {
@@ -79,11 +78,10 @@ public class StoriesFragment extends DaggerFragment implements StoriesContract.V
 
         if (savedInstanceState == null) {
             presenter.takeView(this);
-            presenter.loadStoryIds(true);
+            presenter.loadStories(true);
         } else {
             presenter.takeView(this);
-            presenter.loadStoryIds(false);
-            presenter.setCurrentPage(savedInstanceState.getInt(KEY_CURRENT_PAGE));
+            presenter.setNextPage(savedInstanceState.getInt(KEY_CURRENT_PAGE) + 1);
             showStories(savedInstanceState.getParcelableArrayList(KEY_STORIES));
         }
 
@@ -100,13 +98,17 @@ public class StoriesFragment extends DaggerFragment implements StoriesContract.V
             rvStories.addOnScrollListener(new RecyclerViewScrollListener(lm) {
                 @Override
                 public void onLoadMore(int page, int totalItemsCount) {
-                    storiesAdapter.showLoadingIndicator();
-                    presenter.loadStories();
+                    Timber.d("is loading more items? %s", isLoadingMoreItems);
+                    if (!isLoadingMoreItems) {
+                        storiesAdapter.showLoadingIndicator();
+                        presenter.loadStories(false);
+                        isLoadingMoreItems = true;
+                    }
                 }
             });
             rvStories.setAdapter(storiesAdapter);
             swipeRefresh.setOnRefreshListener(() -> {
-                presenter.loadStoryIds(true);
+                presenter.refreshStories();
             });
         }
     }
@@ -121,12 +123,25 @@ public class StoriesFragment extends DaggerFragment implements StoriesContract.V
     @Override
     public void showStories(@Nullable List<Story> stories) {
         storiesAdapter.setShowProgressIndicator(false);
+        isLoadingMoreItems = false;
+        if (stories == null) {
+            showStoriesUnavailableError();
+            return;
+        }
+        this.stories = new ArrayList<>(stories);
+        storiesAdapter.setStories(stories);
+    }
+
+    @Override
+    public void showMoreStories(@Nullable List<Story> stories) {
+        storiesAdapter.setShowProgressIndicator(false);
+        isLoadingMoreItems = false;
         if (stories == null) {
             showStoriesUnavailableError();
             return;
         }
         this.stories.addAll(stories);
-        storiesAdapter.setStories(stories);
+        storiesAdapter.addStories(stories);
     }
 
     @Override

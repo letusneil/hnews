@@ -26,7 +26,8 @@ public class StoriesPresenter implements StoriesContract.Presenter {
     private final CompositeDisposable subscriptions;
 
     private List<Integer> ids;
-    private int currentPage = 1;
+    private boolean refreshStories = false;
+    private int nextPage = 1;
 
     @Inject
     public StoriesPresenter(StoryRepository storyRepository) {
@@ -46,21 +47,25 @@ public class StoriesPresenter implements StoriesContract.Presenter {
     }
 
     @Override
-    public void loadStoryIds(boolean forceUpdate) {
-        view.setProgressIndicator(forceUpdate);
+    public void loadStories(boolean forceUpdateStoryIds) {
+        view.setProgressIndicator(forceUpdateStoryIds);
         view.setIdleStatus(false);
 
-        if (forceUpdate) {
-            storyRepository.refreshStories();
+        int lastItem = nextPage * CommonUtil.Constants.PAGE_STORY_SIZE;
+        int firstItem = lastItem - CommonUtil.Constants.PAGE_STORY_SIZE;
+        loadStoryIds(forceUpdateStoryIds, firstItem, lastItem);
+    }
+
+    private void loadStoryIds(boolean refreshStoryIds, int firstItem, int lastItem) {
+        if (refreshStoryIds) {
+            storyRepository.refreshStoryIds();
         }
 
         subscriptions.add(storyRepository
-                .getTopStories()
+                .getTopStoryIds()
                 .subscribe(x -> {
                             ids = x;
-                            if (forceUpdate) {
-                                loadStories();
-                            }
+                            getStories(firstItem, lastItem);
                         },
                         throwable -> {
                             if (isAlive()) {
@@ -72,34 +77,45 @@ public class StoriesPresenter implements StoriesContract.Presenter {
                         }));
     }
 
-    @Override
-    public void loadStories() {
-        int lastItem = currentPage * CommonUtil.Constants.PAGE_STORY_SIZE;
-        int firstItem = lastItem - CommonUtil.Constants.PAGE_STORY_SIZE;
+    private void getStories(int firstItem, int lastItem) {
+        Timber.d("Getting story for item ids %s", ids.subList(firstItem, lastItem));
         List<Story> stories = new ArrayList<>();
-
-        Timber.d("ids %s", ids);
-
         subscriptions.add(
-                Observable.just(ids.subList(firstItem, lastItem))
-                        .concatMapIterable(list -> list)
+                Observable.fromIterable(ids.subList(firstItem, lastItem))
                         .concatMap(id -> storyRepository.getStory(id))
                         .subscribe(stories::add, e -> {
                             Timber.e(e.getMessage());
+                            view.showErrorMessage(e.getMessage());
                             view.setIdleStatus(true);
                         }, () -> {
                             if (isAlive()) {
                                 view.setProgressIndicator(false);
-                                view.showStories(stories);
+                                if (refreshStories) {
+                                    // replace current story list
+                                    view.showStories(stories);
+                                    refreshStories = false;
+                                    nextPage = 2;
+                                } else {
+                                    // adds new stories to existing story list
+                                    view.showMoreStories(stories);
+                                    nextPage++;
+                                }
                                 view.setIdleStatus(true);
-                                currentPage++;
                             }
                         }));
     }
 
     @Override
-    public void setCurrentPage(int currentPage) {
-        this.currentPage = currentPage;
+    public void setNextPage(int nextPage) {
+        this.nextPage = nextPage;
+    }
+
+    @Override
+    public void refreshStories() {
+        view.setProgressIndicator(true);
+        nextPage = 1;
+        refreshStories = true;
+        loadStoryIds(true, 0, CommonUtil.Constants.PAGE_STORY_SIZE);
     }
 
     private boolean isAlive() {

@@ -29,11 +29,11 @@ public class StoryRepository implements StoryDataSource {
     }
 
     @Override
-    public Observable<List<Integer>> getTopStories() {
+    public Observable<List<Integer>> getTopStoryIds() {
         if (!cacheIsDirty && cachedStoryIds != null) {
             return cachedStoryIds;
         }
-        cachedStoryIds = remoteDataSource.getTopStories()
+        cachedStoryIds = remoteDataSource.getTopStoryIds()
                 .compose(RxUtil.applySchedulers());
         return cachedStoryIds;
     }
@@ -50,7 +50,7 @@ public class StoryRepository implements StoryDataSource {
     }
 
     @Override
-    public void refreshStories() {
+    public void refreshStoryIds() {
         cacheIsDirty = true;
     }
 }

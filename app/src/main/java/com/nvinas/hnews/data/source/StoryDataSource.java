@@ -15,9 +15,9 @@ public interface StoryDataSource {
 
     Observable<Story> getStory(int id);
 
-    Observable<List<Integer>> getTopStories();
+    Observable<List<Integer>> getTopStoryIds();
 
     Observable<Comment> getComment(int id);
 
-    void refreshStories();
+    void refreshStoryIds();
 }

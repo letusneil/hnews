@@ -65,6 +65,11 @@ public class StoriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     void setStories(@NonNull List<Story> stories) {
+        this.stories = stories;
+        notifyDataSetChanged();
+    }
+
+    void addStories(@NonNull List<Story> stories) {
         this.stories.addAll(stories);
         notifyDataSetChanged();
     }

@@ -21,6 +21,8 @@ public interface StoriesContract {
 
         void showStories(@Nullable List<Story> stories);
 
+        void showMoreStories(@Nullable List<Story> stories);
+
         void showStoryWebView(@NonNull String url);
 
         void showStoriesUnavailableError();
@@ -32,10 +34,10 @@ public interface StoriesContract {
 
     interface Presenter extends BasePresenter<View> {
 
-        void loadStoryIds(boolean forceUpdate);
+        void loadStories(boolean forceUpdateStoryIds);
 
-        void loadStories();
+        void refreshStories();
 
-        void setCurrentPage(int currentPage);
+        void setNextPage(int nextPage);
     }
 }
