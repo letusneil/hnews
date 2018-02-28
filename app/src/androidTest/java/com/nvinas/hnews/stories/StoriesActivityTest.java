@@ -19,7 +19,6 @@ import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
-import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -49,11 +48,10 @@ public class StoriesActivityTest {
 
     @Test
     public void storiesActivityUiCreated() {
-        ViewInteraction recyclerView = onView(
-                allOf(withId(R.id.rv_stories),
-                        withParent(allOf(withId(R.id.swipe_refresh),
-                                withParent(withId(R.id.fragment_stories)))),
-                        isDisplayed()));
+        allOf(withId(R.id.rv_stories),
+                withParent(allOf(withId(R.id.swipe_refresh),
+                        withParent(withId(R.id.fragment_stories)))),
+                isDisplayed());
     }
 
     @Test
