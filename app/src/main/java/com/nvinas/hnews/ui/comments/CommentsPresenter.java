@@ -39,7 +39,6 @@ public class CommentsPresenter implements CommentsContract.Presenter {
         subscriptions.add(Observable.fromIterable(kids)
                 .concatMap(id -> storyRepository.getComment(id))
                 .concatMap(x -> getInnerComments(x, 1))
-                .compose(RxUtil.applySchedulers())
                 .subscribe(a -> {
                     Timber.d("Comment id: %s and level: %s", a.getId(), a.getLevel());
                     comments.add(a);

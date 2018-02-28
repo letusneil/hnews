@@ -1,5 +1,7 @@
 package com.nvinas.hnews.data.source;
 
+import android.support.annotation.NonNull;
+
 import com.nvinas.hnews.common.util.RxUtil;
 import com.nvinas.hnews.data.Comment;
 import com.nvinas.hnews.data.Story;
@@ -17,14 +19,15 @@ import io.reactivex.Observable;
 @Singleton
 public class StoryRepository implements StoryDataSource {
 
-    private StoryDataSource remoteDataSource;
+    @NonNull
+    private final StoryDataSource remoteDataSource;
 
     private Observable<List<Integer>> cachedStoryIds;
 
     private boolean cacheIsDirty = false;
 
     @Inject
-    public StoryRepository(StoryDataSource remoteDataSource) {
+    public StoryRepository(@NonNull StoryDataSource remoteDataSource) {
         this.remoteDataSource = remoteDataSource;
     }
 
@@ -46,7 +49,8 @@ public class StoryRepository implements StoryDataSource {
 
     @Override
     public Observable<Comment> getComment(int id) {
-        return remoteDataSource.getComment(id);
+        return remoteDataSource.getComment(id)
+                .compose(RxUtil.applySchedulers());
     }
 
     @Override

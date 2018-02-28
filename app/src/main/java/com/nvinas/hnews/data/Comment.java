@@ -38,6 +38,17 @@ public class Comment implements Parcelable {
     private String type;
     private int level = 0;
 
+    public Comment(int id, String by, List<Integer> kids, int parent, int time, String text, String type, int level) {
+        this.id = id;
+        this.by = by;
+        this.kids = kids;
+        this.parent = parent;
+        this.time = time;
+        this.text = text;
+        this.type = type;
+        this.level = level;
+    }
+
     public Comment(int id) {
         this.id = id;
     }

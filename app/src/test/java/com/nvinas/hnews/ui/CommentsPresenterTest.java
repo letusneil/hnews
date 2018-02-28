@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.List;
@@ -28,9 +29,6 @@ import static org.mockito.Mockito.when;
 
 public class CommentsPresenterTest {
 
-    @ClassRule
-    public static final RxTestRule schedulers = new RxTestRule();
-
     @Mock
     private CommentsContract.View commentsView;
 
@@ -41,29 +39,42 @@ public class CommentsPresenterTest {
 
     private List<Integer> kidsTest = Lists.newArrayList(16377344, 16379114, 16377757, 16379257);
 
-    private List<Integer> kidsTestError = Lists.newArrayList(-1, -2, -3, -4);
+    private Comment comment1 = new Comment(
+            16481112, "WhiteRiceWill", kidsTest, 48, 1519799288,
+            "Something something something hello world", "comment", 0);
+
+    private Comment comment2 = new Comment(
+            16483112, "BlackRiceWill", kidsTest, 58, 1516799288,
+            "hello world Something something something ", "comment", 1);
 
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
         commentsPresenter = new CommentsPresenter(storyRepository);
         commentsPresenter.takeView(commentsView);
+
+        when(commentsView.isActive()).thenReturn(true);
     }
 
     @Test
     public void loadComments() {
-        Comment comment = new Comment(16377344);
+        when(storyRepository.getComment(16480503)).thenReturn(Observable.just(comment1));
+        when(storyRepository.getComment(16481112)).thenReturn(Observable.just(comment2));
         commentsPresenter.loadComments(kidsTest);
-
-        verify(commentsView, times(1)).setProgressIndicator(true);
-        verify(commentsView, times(1)).isActive();
-        when(storyRepository.getComment(16377344)).thenReturn(Observable.just(comment));
+        verify(commentsView).setProgressIndicator(true);
+        verify(commentsView).setProgressIndicator(false);
+        verify(commentsView).showErrorMessage(Mockito.anyString());
+        //verify(commentsView).showComment(Mockito.any());
     }
 
     @Test
     public void getInnerComments() {
-        Comment comment = new Comment(16379114);
-        commentsPresenter.getInnerComments(comment, 0);
-        when(storyRepository.getComment(16379114)).thenReturn(Observable.just(comment));
+        when(storyRepository.getComment(16481112)).thenReturn(Observable.just(comment2));
+        commentsPresenter.getInnerComments(comment1, 1);
+    }
+
+    @Test
+    public void dropView() {
+        commentsPresenter.dropView();
     }
 }

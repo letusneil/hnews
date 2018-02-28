@@ -10,6 +10,7 @@ import com.nvinas.hnews.testrule.RxTestRule;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -23,7 +24,6 @@ import static org.mockito.Mockito.when;
 /**
  * Created by nvinas on 15/02/2018.
  */
-
 public class StoryRepositoryTest {
 
     @ClassRule
@@ -43,9 +43,9 @@ public class StoryRepositoryTest {
     @Test
     public void getTopStories() {
         List<Integer> integers = Lists.newArrayList(1, 2, 3);
-        when(storyRemoteDataSource.getTopStories()).thenReturn(Observable.just(integers));
+        when(storyRemoteDataSource.getTopStoryIds()).thenReturn(Observable.just(integers));
 
-        TestObserver<List<Integer>> testObserver = storyRepository.getTopStories().test();
+        TestObserver<List<Integer>> testObserver = storyRepository.getTopStoryIds().test();
         testObserver.assertNoErrors();
     }
 

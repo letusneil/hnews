@@ -23,7 +23,7 @@ public class StoriesPresenter implements StoriesContract.Presenter {
     private StoryRepository storyRepository;
     private final CompositeDisposable subscriptions;
 
-    private List<Integer> ids;
+    private List<Integer> storyIds;
     private boolean refreshStories = false;
     private int nextPage = 1;
 
@@ -61,9 +61,8 @@ public class StoriesPresenter implements StoriesContract.Presenter {
 
         subscriptions.add(storyRepository
                 .getTopStoryIds()
-                .subscribe(x -> {
-                            ids = x;
-                            getStories(firstItem, lastItem);
+                .subscribe(ids -> {
+                            getStories(ids, firstItem, lastItem);
                         },
                         throwable -> {
                             if (isAlive()) {
@@ -75,32 +74,40 @@ public class StoriesPresenter implements StoriesContract.Presenter {
                         }));
     }
 
+    private void getStories(List<Integer> storyIds, int firstItem, int lastItem) {
+        this.storyIds = new ArrayList<>(storyIds);
+        getStories(firstItem, lastItem);
+    }
+
     private void getStories(int firstItem, int lastItem) {
-        Timber.d("Getting story for item ids %s", ids.subList(firstItem, lastItem));
+        Timber.d("Getting story for item storyIds %s", storyIds.subList(firstItem, lastItem));
         List<Story> stories = new ArrayList<>();
         subscriptions.add(
-                Observable.fromIterable(ids.subList(firstItem, lastItem))
+                Observable.fromIterable(storyIds.subList(firstItem, lastItem))
                         .concatMap(id -> storyRepository.getStory(id))
-                        .subscribe(stories::add, e -> {
-                            Timber.e(e.getMessage());
-                            view.showErrorMessage(e.getMessage());
-                            view.setIdleStatus(true);
-                        }, () -> {
-                            if (isAlive()) {
-                                view.setProgressIndicator(false);
-                                if (refreshStories) {
-                                    // replace current story list
-                                    view.showStories(stories);
-                                    refreshStories = false;
-                                    nextPage = 2;
-                                } else {
-                                    // adds new stories to existing story list
-                                    view.showMoreStories(stories);
-                                    nextPage++;
-                                }
-                                view.setIdleStatus(true);
-                            }
-                        }));
+                        .subscribe(stories::add,
+                                e -> {
+                                    Timber.e(e.getMessage());
+                                    view.showErrorMessage(e.getMessage());
+                                    view.setProgressIndicator(false);
+                                    view.setIdleStatus(true);
+                                },
+                                () -> {
+                                    if (isAlive()) {
+                                        view.setProgressIndicator(false);
+                                        if (refreshStories) {
+                                            // replace current story list
+                                            view.showStories(stories);
+                                            refreshStories = false;
+                                            nextPage = 2;
+                                        } else {
+                                            // adds new stories to existing story list
+                                            view.showMoreStories(stories);
+                                            nextPage++;
+                                        }
+                                        view.setIdleStatus(true);
+                                    }
+                                }));
     }
 
     @Override
