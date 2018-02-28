@@ -6,7 +6,7 @@ hnews is a Hackernews client powered by [Hackernews official API](https://github
 
 ### Screenshots
 
-<img src="https://github.com/neilvinas/hnews/blob/master/art/top_stories.png" width="200" height="415"> <img src="https://github.com/neilvinas/hnews/blob/master/art/comments.png" width="200" height="415"> 
+<img src="https://github.com/neilvinas/hnews/blob/master/art/top_stories.png" width="200" height="415"> <img src="https://github.com/neilvinas/hnews/blob/master/art/comments.png" width="200" height="415"> <img src="https://github.com/neilvinas/hnews/blob/master/art/comments_levels.png" width="200" height="415">
 
 ### Features
 
@@ -29,6 +29,7 @@ The project uses Model-View-Presenter pattern to separate responsibilities among
 
     ./gradlew testDebugUnitTest
     ./gradlew test
+    ./gradlew jacocoTestReport
     
 ### Further improvements
 
